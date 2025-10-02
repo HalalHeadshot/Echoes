@@ -40,3 +40,18 @@
 .read-the-docs {
   color: #888;
 }
+
+/* make Leaflet layers have z-index 0 */
+.leaflet-container,
+.leaflet-tile-pane,
+.leaflet-overlay-pane,
+.leaflet-shadow-pane,
+.leaflet-marker-pane,
+.leaflet-popup-pane {
+  z-index: 0 !important;
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control {
+  display: none !important;
+}
+

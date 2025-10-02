@@ -1,9 +1,11 @@
+/* Import Leaflet CSS (required for maps to display correctly) */
+@import 'leaflet/dist/leaflet.css';
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Import Leaflet CSS (required for maps to display correctly) */
-@import 'leaflet/dist/leaflet.css';
 
 /* Custom global styles */
 * {

@@ -1,53 +1,88 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { NavLink } from "react-router-dom";
+import { MoonStar,SunMedium,LogOut } from 'lucide-react';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // Mock login state
+   const [dark, setDark] = useState(true);
 
   return (
-    <nav className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <nav className="bg-transparent backdrop-blur-md fixed w-full z-[999] top-0 px-[20px]">
+        <div className="flex justify-between items-center h-[64px]">
           {/* Logo/Brand */}
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl">📍</span>
-            <span className="text-xl font-bold text-gray-800">GeoMemories</span>
+            <div className='bg-[url("tempLogo2.png")] bg-contain bg-no-repeat aspect-[441/255] h-[50px]'></div>
           </Link>
 
           {/* Navigation Links */}
           <div className="flex items-center space-x-4">
             {isLoggedIn ? (
               <>
-                <Link
+                <NavLink
                   to="/"
-                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                  className={({ isActive }) =>
+                    `text-black text-[1.2rem] px-[12px] py-[8px] text-sm font-medium ${
+                      isActive ? "border-b-[2px] border-[#3d61f0]" : ""
+                    }`
+                  }
                 >
                   Map
-                </Link>
-                <Link
+                </NavLink>
+                
+                <NavLink
                   to="/memories"
-                  className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                  className={({ isActive }) =>
+                    `text-black text-[1.2rem] px-[12px] py-[8px] text-sm font-medium ${
+                      isActive ? "border-b-[2px] border-[#3d61f0]" : ""
+                    }`
+                  }
                 >
-                  My Memories
-                </Link>
-                <button
+                  Memories
+                </NavLink>
+                
+                {/* <button
                   onClick={() => setIsLoggedIn(false)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-600"
+                    className="bg-red-500 text-white px-[16px] py-[8px] rounded-md text-sm font-medium hover:bg-red-600"
                 >
                   Logout
-                </button>
+                </button> */}
               </>
             ) : (
-              <Link
-                to="/auth"
-                className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700"
-              >
-                Login
-              </Link>
+                <Link
+                  to="/auth"
+                  className="bg-blue-600 text-white px-[16px] py-[8px] rounded-md text-sm font-medium hover:bg-blue-700"
+                >
+                  Login
+                </Link>
             )}
           </div>
+
+          <section className='flex items-center text-gray-600'>
+            
+          <button
+           onClick={() => setDark(prev=>!prev)}>
+            {(dark)?
+            <MoonStar />:
+            <SunMedium />
+            }
+          </button>
+
+          <button className="ml-[20px]"
+                  onClick={() => setIsLoggedIn(false)}
+                   
+                >
+            <LogOut />
+          </button>
+
+          <div className="ml-[40px] aspect-square w-[40px] bg-gray-400 rounded-full flex justify-center items-end overflow-hidden">
+                     <i className="fa-solid fa-user text-[1.8rem] text-gray-200"></i>
+          </div>
+          
+          </section>
+
         </div>
-      </div>
+
     </nav>
   );
 };

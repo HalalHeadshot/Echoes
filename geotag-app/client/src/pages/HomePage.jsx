@@ -1,25 +1,22 @@
 import MapView from '../components/Map/MapView';
 import { mockMemories } from '../data/mockData';
+import { LogOut } from 'lucide-react';
 
 const HomePage = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-6">
-        <h1 className="text-4xl font-bold text-gray-800 mb-2">
+    <div className="container mt-[60px] px-[16px] pt-[5px]">
+
+      <MapView memories={mockMemories}/>
+
+      <div className="bg-[#ffffff] rounded-[40px] px-[15px] py-[12px] w-fit absolute top-[76px] left-[26px] z-[500] border-[1px] border-gray-400">
+        <h1 className="text-[1.4rem] font-bold text-gray-800">
           My Memory Map
         </h1>
-        <p className="text-gray-600">
-          Click on any marker to view photos and memories from that location
+        <p className="text-gray-600 text-[0.8rem]">
+          Click on any marker to view memories from that location
         </p>
       </div>
 
-      <MapView memories={mockMemories} />
-
-      <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <p className="text-sm text-blue-800">
-          💡 <strong>Tip:</strong> Click on the map markers to see your memories!
-        </p>
-      </div>
     </div>
   );
 };

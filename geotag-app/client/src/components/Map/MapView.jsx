@@ -23,8 +23,9 @@ const MapView = ({ memories }) => {
     <MapContainer
       center={defaultCenter}
       zoom={defaultZoom}
+      zoomControl={false} 
       style={{ height: '600px', width: '100%' }}
-      className="rounded-lg shadow-lg"
+      className="rounded-t-[50px] shadow-lg overflow-hidden relative border-[1px] border-gray-400 "
     >
       {/* Map tiles from OpenStreetMap */}
       <TileLayer
