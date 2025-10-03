@@ -50,8 +50,3 @@
 .leaflet-popup-pane {
   z-index: 0 !important;
 }
-
-.leaflet-control-zoom.leaflet-bar.leaflet-control {
-  display: none !important;
-}
-

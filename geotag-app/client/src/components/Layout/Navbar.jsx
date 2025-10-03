@@ -8,8 +8,8 @@ const Navbar = () => {
    const [dark, setDark] = useState(true);
 
   return (
-    <nav className="bg-transparent backdrop-blur-md fixed w-full z-[999] top-0 px-[20px]">
-        <div className="flex justify-between items-center h-[64px]">
+       <nav className="bg-white fixed w-full z-[999] top-0 px-[20px]">
+        <div className="flex justify-between items-center h-[64px] relative z-10">
           {/* Logo/Brand */}
           <Link to="/" className="flex items-center space-x-2">
             <div className='bg-[url("tempLogo2.png")] bg-contain bg-no-repeat aspect-[441/255] h-[50px]'></div>
@@ -19,6 +19,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {isLoggedIn ? (
               <>
+
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
