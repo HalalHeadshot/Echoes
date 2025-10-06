@@ -1,1 +1,94 @@
-console.log("hello");
+const express = require('express');
+const cors = require('cors');
+const authRoutes = require('./routes/authRoutes'); 
+const mongoose = require('mongoose');
+require('dotenv').config(); // loads .env variables
+
+const app = express();
+/*it creates an Express application object
+ Now app becomes the main variable you’ll use to:
+
+>add routes → app.get('/login', ...)
+>add middleware → app.use(cors())
+>start the server → app.listen(5000)
+
+Basically, app is your entire backend bundled in one variable.
+If Express was a car, express() is like turning the key — app is now the car you can drive.*/
+
+//MIDDLEWARE SETUP-----------------------
+//app.use(...)  // Tells Express to run this middleware function for every request
+app.use(cors());
+//CORS (Cross-Origin Resource Sharing) lets your frontend (e.g., React on localhost:5173) 
+//talk to your backend (localhost:5000) without the browser blocking the request for security reasons.
+app.use(express.json());
+/*
+app.use(express.json())
+This one tells Express:
+“If someone sends me data (like from a form or Axios POST),automatically read the JSON body and make it available in req.body.”
+
+This way, you don’t have to manually parse JSON every time someone sends data to your backend.
+Without this middleware, if you tried to access req.body, it would be undefined.
+You’d have to do something like:
+let data = '';
+req.on('data', chunk => { data += chunk; });
+req.on('end', () => { const parsed = JSON.parse(data); });
+Basically, Express now does this automatically for you.
+ -------------------------------------------*/
+//---------------------------------------
+
+//connect to DB--------------------------
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => console.log(err));
+//---------------------------------------
+
+/*test route
+app.get() → for reading/fetching data
+app.post() → for creating/sending data
+app.put() → for updating data
+app.delete() → for deleting data
+
+app.get('/', (req, res) => {
+  res.send('Backend is running');
+});
+so when you write the above code it means:
+When someone tries to GET the ( / ), here’s what to send back.
+
+/ (the slash) → the path / route
+The '/' here represents the root URL path.
+So if your server is running at
+http://localhost:5000
+*/
+
+//routes---------------------
+app.use('/api', authRoutes);// Prefix all auth routes with /api and make these routes active
+//------------------------
+// start server
+app.listen(process.env.PORT || 5000, () => console.log('Server running on http://localhost:5000'));
+/*app.listen(5000, ...)→ Starts the server on port 5000
+() => { ... } → This is a callback function that runs once the server starts successfully.
+
+A callback is simply a function that is passed as an argument to another function,
+ and then called (executed) later by that function.
+ callback example:
+
+ function greet(name, callback) {
+  console.log(`Hello, ${name}!`);
+  callback(); // calling the callback function
+}
+
+function sayBye() {
+  console.log('Goodbye!');
+}
+
+greet('Sohan', sayBye);
+
+
+output:-
+Hello, Sohan!
+Goodbye!
+
+Here,
+sayBye is the callback function.
+It’s passed to greet and then executed inside greet.
+ */

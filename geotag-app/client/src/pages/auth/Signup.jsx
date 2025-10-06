@@ -1,27 +1,53 @@
-import { EyeOff, Eye } from 'lucide-react';
+import { EyeOff, Eye,X } from 'lucide-react';
 import { useState } from 'react';
 import Lottie from "lottie-react";
-import animationData from "../../data/animationData/polaroidLoop.json";
+import animationData from "../../data/animationData/startingAnimation.json";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const Signup = ({ onSwitchToLogin }) => {
+
+  const navigate = useNavigate();
+
+  const [error, setError] = useState('');
+  //const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
+  
     name: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-  const [error, setError] = useState('');
 
-  const handleChange = (e) => {
+
+  const handleChange = (e) => { //runs on every input change
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
+      /*
+      e is event object
+      e.target is the input element that triggered the event
+      e.target.name is the name attribute of that input element
+      e.target.value is the current value of that input element
+      ...formData copies all the existing fields in the form state.
+      [e.target.name]: e.target.value updates only the field that changed.
+      why in []?
+      [key] tells JavaScript: “Use the value of this variable as the key
+      Without the brackets, this would literally create a key called "e.target.name" instead of "email" or "password".
+       */
     });
     if (error) setError('');
-  };
+    if (success) setSuccess('');
 
-  const handleSubmit = (e) => {
+  };
+  
+  const BASE_URL = 'http://localhost:5000';
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -35,13 +61,55 @@ const Signup = ({ onSwitchToLogin }) => {
       return;
     }
 
-    console.log('Signup attempt:', formData);
-    alert('Signup functionality will be connected to backend later!');
+    console.log('Signup attempt:', formData);//remove later
+      try {
+      //setLoading(true); add later
+      setError('');
+      setSuccess('');
+      
+      //Using /api clearly marks routes as API endpoints.
+      //Without it, /signup could conflict with a React frontend route /signup
+      //axios is a popular library for making HTTP requests.
+      const response = await axios.post(`${BASE_URL}/api/signup`, {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      //Data object is the {} part
+      //This is the request body sent to your backend.
+      /*     
+      response.data → The data sent by the server
+      response.status → HTTP status code (e.g., 200, 400, 500).
+      response.statusText → Status message (e.g., “OK”, “Bad Request”)
+      response.headers → Headers sent by the server.
+      response.config → The Axios request configuration used.
+       */
+
+      console.log('Server response:', response.data);//remove later
+      setSuccess('Account created successfully!');
+      setFormData({ name: '', email: '', password: '', confirmPassword: '' });//reset
+      navigate('/');
+
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || 'Something went wrong!');
+    } finally {
+      console.log("");//remove later
+      //setLoading(false);
+    }
+  
   };
 
   return (
     <div className="h-[100vh] w-[100vw] relative flex items-center bg-[#264a92]">
-       <div className="formDiv flex justify-start items-center w-fit h-[400px] transparent overflow-hidden">
+      {(error)?
+      <div className='flex items-center text-red-500 bg-red-500/45 backdrop-blur-md absolute z-[50] top-[20px] left-[50%] -translate-x-1/2 p-[10px] rounded-md border-[1px] border-red-500'>
+        {error}
+        <button className='pl-[5px] text-red-600' onClick={()=>setError(prev => !prev)}><X></X></button>
+      </div>:
+      <div className='display-none'></div>
+      }
+      <div className="formDiv flex justify-start items-center w-fit h-[400px] transparent overflow-hidden">
         <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>;
       </div>
       <div className="formDiv flex justify-center absolute z-10 h-full w-[50%] top-0 right-0 bg-gray-200 shadow-lg rounded-l-[30px]">
@@ -50,12 +118,6 @@ const Signup = ({ onSwitchToLogin }) => {
           className="p-[30px] px-[50px] w-full h-full flex flex-col justify-center"
         >
           <p className="text-[2rem] font-semibold mb-[20px]">Create Account</p>
-
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-4">
-              {error}
-            </div>
-          )}
 
           {/* Name */}
           <div className="flex gap-[20px] mb-[10px]">
@@ -93,7 +155,6 @@ const Signup = ({ onSwitchToLogin }) => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                minLength={6}
                 className="bg-gray-200 border-b border-gray-400 p-[10px] w-full focus:outline-none"
               />
               <button

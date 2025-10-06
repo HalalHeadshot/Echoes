@@ -2,7 +2,7 @@ import { EyeOff, Eye } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
-import animationData from "../../data/animationData/polaroidLoop.json";
+import animationData from "../../data/animationData/startingAnimation.json";
 
 const Login = ({ onSwitchToSignup }) => {
   const [showPassword, setShowPassword] = useState(false);
