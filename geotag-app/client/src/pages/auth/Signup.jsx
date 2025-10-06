@@ -1,5 +1,7 @@
 import { EyeOff, Eye } from 'lucide-react';
 import { useState } from 'react';
+import Lottie from "lottie-react";
+import animationData from "../../data/animationData/polaroidLoop.json";
 
 const Signup = ({ onSwitchToLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,8 +40,11 @@ const Signup = ({ onSwitchToLogin }) => {
   };
 
   return (
-    <div className="h-[100vh] w-[100vw] bg-gray-100 relative">
-      <div className="formDiv absolute h-full w-[50%] right-0 bg-gray-200 shadow-lg rounded-l-[30px]">
+    <div className="h-[100vh] w-[100vw] relative flex items-center bg-[#264a92]">
+       <div className="formDiv flex justify-start items-center w-fit h-[400px] transparent overflow-hidden">
+        <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>;
+      </div>
+      <div className="formDiv flex justify-center absolute z-10 h-full w-[50%] top-0 right-0 bg-gray-200 shadow-lg rounded-l-[30px]">
         <form
           onSubmit={handleSubmit}
           className="p-[30px] px-[50px] w-full h-full flex flex-col justify-center"
