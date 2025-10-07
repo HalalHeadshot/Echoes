@@ -1,3 +1,7 @@
+import { Pencil,Trash,MapPin,Calendar } from 'lucide-react';
+
+
+
 const MemoryCard = ({ memory }) => {
   // Format date nicely
   const formatDate = (dateString) => {
@@ -29,12 +33,12 @@ const MemoryCard = ({ memory }) => {
         </p>
 
         <div className="flex items-center text-sm text-gray-500 mb-2">
-          <span className="mr-2">📍</span>
+          <span className="mr-2"><MapPin /></span>
           <span>{memory.location.address}</span>
         </div>
 
         <div className="flex items-center text-sm text-gray-500">
-          <span className="mr-2">📅</span>
+          <span className="mr-2"><Calendar /></span>
           <span>{formatDate(memory.createdAt)}</span>
         </div>
       </div>
@@ -45,10 +49,10 @@ const MemoryCard = ({ memory }) => {
           View on Map
         </button>
         <button className="px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
-          ✏️
+          <Pencil />
         </button>
         <button className="px-4 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition">
-          🗑️
+          <Trash />
         </button>
       </div>
     </div>

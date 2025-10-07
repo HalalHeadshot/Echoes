@@ -9,57 +9,57 @@ export const mockUser = {
 export const mockMemories = [
   {
     id: '1',
-    title: 'Beach Sunset',
-    description: 'Beautiful sunset at Santa Monica Beach with friends. The sky was painted in shades of orange and pink.',
+    title: 'Marine Drive Evening',
+    description: 'Watched the sunset at Marine Drive while the city lights started to glow. A perfect Mumbai moment!',
     location: {
-      coordinates: [-118.4912, 34.0195], // [longitude, latitude]
-      address: 'Santa Monica Beach, CA'
+      coordinates: [72.8236, 18.9430], // Marine Drive
+      address: 'Marine Drive, Mumbai, India'
     },
-    photoUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600',
-    createdAt: '2024-08-15T18:30:00Z'
+    photoUrl: 'MarineDriveSunset.jpeg',
+    createdAt: '2024-10-02T18:45:00Z'
   },
   {
     id: '2',
-    title: 'Mountain Hike',
-    description: 'Reached the summit after a 5-hour hike. The view was absolutely worth it!',
+    title: 'Gateway of India Morning',
+    description: 'Visited the Gateway of India early in the morning. The calm Arabian Sea looked beautiful.',
     location: {
-      coordinates: [-119.5383, 37.8651], // Yosemite
-      address: 'Yosemite National Park, CA'
+      coordinates: [72.8347, 18.9220],
+      address: 'Gateway of India, Colaba, Mumbai, India'
     },
-    photoUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600',
-    createdAt: '2024-07-22T14:20:00Z'
+    photoUrl: 'GatewayOfInDIA.jpg',
+    createdAt: '2024-09-28T07:10:00Z'
   },
   {
     id: '3',
-    title: 'Coffee Shop Corner',
-    description: 'Found this cozy coffee shop in downtown. Perfect spot for working remotely.',
+    title: 'Bandra Bandstand Walk',
+    description: 'Evening stroll by the sea, watching the waves crash near Shah Rukh Khan’s bungalow.',
     location: {
-      coordinates: [-118.2437, 34.0522], // LA Downtown
-      address: 'Downtown Los Angeles, CA'
+      coordinates: [72.8239, 19.0434], // Bandra Bandstand
+      address: 'Bandra Bandstand, Mumbai, India'
     },
-    photoUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600',
-    createdAt: '2024-09-10T09:15:00Z'
+    photoUrl: 'BandraBandStandWalk.jpg',
+    createdAt: '2024-09-12T18:00:00Z'
   },
   {
     id: '4',
-    title: 'City Lights',
-    description: 'Night photography session in the city. Captured some amazing light trails.',
+    title: 'Ghatkopar Street Food',
+    description: 'Explored the Khau Galli in Ghatkopar East. Tried some amazing dosas and pani puri!',
     location: {
-      coordinates: [-122.4194, 37.7749], // San Francisco
-      address: 'San Francisco, CA'
+      coordinates: [72.9095, 19.0866],
+      address: 'Ghatkopar East, Mumbai, India'
     },
-    photoUrl: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600',
-    createdAt: '2024-06-05T21:45:00Z'
+    photoUrl: 'Street Food.png',
+    createdAt: '2024-08-20T20:00:00Z'
   },
   {
     id: '5',
-    title: 'Desert Adventure',
-    description: 'Camping under the stars in Joshua Tree. The Milky Way was spectacular.',
+    title: 'Sanjay Gandhi National Park Trek',
+    description: 'Hiked up to Kanheri Caves surrounded by lush greenery. A refreshing escape from the city chaos.',
     location: {
-      coordinates: [-116.0377, 34.1361], // Joshua Tree
-      address: 'Joshua Tree National Park, CA'
+      coordinates: [72.9106, 19.2130],
+      address: 'Sanjay Gandhi National Park, Borivali, Mumbai, India'
     },
-    photoUrl: 'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600',
-    createdAt: '2024-05-18T23:00:00Z'
+    photoUrl: 'sanjay-gandhi-national-park.webp',
+    createdAt: '2024-07-05T09:30:00Z'
   }
 ];

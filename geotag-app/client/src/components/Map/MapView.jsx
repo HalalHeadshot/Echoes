@@ -15,8 +15,7 @@ Icon.Default.mergeOptions({
 });
 
 const MapView = ({ memories }) => {
-  // Default center (Los Angeles)
-  const defaultCenter = [34.0522, -118.2437];
+  const defaultCenter = [19.0866, 72.9095];
   const defaultZoom = 9;
 
   return (
