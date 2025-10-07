@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <>
     <Navbar />
-    <div className="container mt-[70px] px-[16px] pt-[5px]">
+    <div className="mt-[70px] px-[16px] pt-[5px] w-[100%]">
 
       <MapView memories={mockMemories}/>
 

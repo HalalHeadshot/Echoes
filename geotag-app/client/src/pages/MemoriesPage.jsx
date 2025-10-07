@@ -15,7 +15,7 @@ const MemoriesPage = () => {
   return (
     <>
     <Navbar/>
-    <div className="container mt-[70px] mx-auto px-4 py-8">
+    <div className="mt-[70px] mx-auto px-4 py-8">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>

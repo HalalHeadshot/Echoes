@@ -6,7 +6,7 @@ import AuthPage from './pages/auth/AuthPage';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/memories" element={<MemoriesPage />} />
