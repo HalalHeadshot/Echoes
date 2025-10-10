@@ -1,42 +1,42 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { NavLink } from "react-router-dom";
-import { MoonStar,SunMedium,LogOut } from 'lucide-react';
+import { MoonStar,SunMedium,LogOut,ChevronDown } from 'lucide-react';
+import { useTheme } from "../../context/ThemeContext";
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Mock login state
-   const [dark, setDark] = useState(true);
+   const [showProfileOptions, setShowProfileOptions] = useState(false);
+   const { dark, setDark } = useTheme();
 
   return (
-       <nav className="bg-white fixed w-full z-[999] top-0 px-[20px]">
-        <div className="flex justify-between items-center h-[64px] relative z-10">
+       <nav className="transparent fixed z-[999] top-[20px] left-0 right-0 px-[30px]">
+        <div className="flex justify-between items-center h-[50px] relative z-10">
           {/* Logo/Brand */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className='bg-[url("tempLogo2.png")] bg-contain bg-no-repeat aspect-[441/255] h-[50px]'></div>
+            <div className='bg-[url("logo.png")] bg-contain bg-no-repeat aspect-[445/549] h-[40px]'></div>
           </Link>
 
           {/* Navigation Links */}
-          <div className="flex items-center space-x-4">
-            {isLoggedIn ? (
-              <>
-
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    `text-black text-[1.2rem] px-[12px] py-[8px] text-sm font-medium ${
-                      isActive ? "border-b-[2px] border-[#3d61f0]" : ""
-                    }`
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center space-x-[12px] py-[5px] px-[5px] h-full bg-main/50 dark:bg-dborderColor/50 backdrop-blur-[2px] border-[1px] border-borderColor dark:border-dborderColor rounded-full">
+                <NavLink to="/" className={({ isActive }) =>
+                    `p-[5px] h-full flex items-center justify-center rounded-full text-[1.2rem] w-[80px] text-center
+                     text-sm font-medium ${isActive ? 
+                      "bg-dmain text-white dark:bg-main dark:text-black"
+                      : 
+                      "text-black dark:text-white"} 
+                    `
                   }
                 >
                   Map
                 </NavLink>
                 
-                <NavLink
-                  to="/memories"
-                  className={({ isActive }) =>
-                    `text-black text-[1.2rem] px-[12px] py-[8px] text-sm font-medium ${
-                      isActive ? "border-b-[2px] border-[#3d61f0]" : ""
-                    }`
+                <NavLink to="/memories" className={({ isActive }) =>
+                    `p-[5px] h-full flex items-center justify-center rounded-full text-[1.2rem] w-[80px] text-center
+                     text-sm font-medium ${isActive ? 
+                      "bg-dmain text-white dark:bg-main dark:text-black"
+                      : 
+                      "text-black dark:text-white"} 
+                    `
                   }
                 >
                   Memories
@@ -48,38 +48,48 @@ const Navbar = () => {
                 >
                   Logout
                 </button> */}
-              </>
-            ) : (
-                <Link
-                  to="/auth"
-                  className="bg-blue-600 text-white px-[16px] py-[8px] rounded-md text-sm font-medium hover:bg-blue-700"
-                >
-                  Login
-                </Link>
-            )}
           </div>
 
-          <section className='flex items-center text-gray-600'>
-            
-          <button
-           onClick={() => setDark(prev=>!prev)}>
-            {(dark)?
-            <MoonStar />:
-            <SunMedium />
-            }
-          </button>
+          <section className='relative flex items-center text-black h-full bg-white/20 dark:bg-dborderColor/50 backdrop-blur-[2px] border-[1px]
+           border-borderColor dark:border-dborderColor px-[5px] py-[5px] rounded-full' onMouseLeave={() => setShowProfileOptions(false)}>      
+             
+   
+             <div className="overflow-hidden flex w-[40px] h-full bg-main dark:bg-black rounded-full hover:w-[200px] transition-all duration-300">           
+                 <div className="aspect-square min-w-[40px] bg-gray-400 dark:bg-[#393939] rounded-full flex justify-center items-end overflow-hidden">
+                     <i className="fa-solid fa-user text-[1.8rem] text-gray-200 dark:text-gray-400"></i>
+                 </div>
+  
+                 <div className="p-[5px] w-full flex justify-between">
+                     <section className="flex flex-col justify-center">
+                       <p className='text-[0.9rem] text-txt dark:text-dtxt'>Username</p>
+                       <p className='text-[0.6rem] text-lightTxt dark:text-dlightTxt'>sample@gmail.com</p>
+                     </section>
+                     <button className="flex items-center justify-center text-txt dark:text-dtxt h-full p-[5px] border-l-[1px] border-[#565656]"
+                       onClick={() => setShowProfileOptions(prev => !prev)}>
+                       <ChevronDown/>
+                     </button>
+                 </div>      
+             </div>
 
-          <button className="ml-[20px]"
-                  onClick={() => setIsLoggedIn(false)}
-                   
-                >
-            <LogOut />
-          </button>
-
-          <div className="ml-[40px] aspect-square w-[40px] bg-gray-400 rounded-full flex justify-center items-end overflow-hidden">
-                     <i className="fa-solid fa-user text-[1.8rem] text-gray-200"></i>
-          </div>
-          
+            {(showProfileOptions)?
+              <div className="profileOptions absolute top-[45px] rounded-md right-[0px] h-fit w-fit bg-white/50 dark:bg-dborderColor/50 backdrop-blur-[2px] border-[1px]
+           border-borderColor dark:border-dborderColor shadow-lg p-[5px]">
+                  <button className="text-[1rem] h-full flex py-[5px] w-full text-lightTxt dark:text-dlightTxt"
+                   onClick={() => setDark(prev => !prev)}>
+                    {(!dark)?
+                    <section className="flex w-full justify-start"><MoonStar /><p className='whitespace-nowrap w-[90px]'>Dark mode</p></section>:
+                    <section className="flex w-full justify-start"><SunMedium /><p className='whitespace-nowrap  w-[90px]'>Light mode</p></section>
+                    }
+                  </button>
+        
+                  <button className="text-[1rem] h-full flex  justify-start py-[5px] border-t-[1px] border-borderColor dark:border-dborderColor text-lightTxt dark:text-dlightTxt w-full"
+                          onClick={() => setIsLoggedIn(false)} >
+                    <LogOut/>Log Out
+                  </button>
+             </div>
+             :
+             <></>
+            }       
           </section>
 
         </div>
