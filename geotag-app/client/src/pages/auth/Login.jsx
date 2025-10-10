@@ -35,7 +35,7 @@ const Login = ({ onSwitchToSignup }) => {
           onSubmit={handleSubmit}
           className="p-[30px] px-[50px] w-full max-[600px] h-full flex flex-col justify-center"
         >
-          <p className="text-[2rem] font-semibold mb-[20px]">Sign In</p>
+          <p className="text-[2rem] font-semibold mb-[20px]">Login In</p>
 
           {/* Email field */}
           <div className="flex mb-[20px]">
@@ -75,7 +75,7 @@ const Login = ({ onSwitchToSignup }) => {
             type="submit"
             className="bg-blue-500 p-[10px] rounded-[10px] text-white font-semibold hover:bg-blue-600 transition"
           >
-            Sign in
+            Log in
           </button>
 
           {/* Divider */}

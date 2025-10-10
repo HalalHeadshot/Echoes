@@ -40,7 +40,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
+    <div className="bg-lightMain dark:bg-dlightMain rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
       {/* Photo */}
       <img
         src={memory.photoUrl}
@@ -58,7 +58,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
               onChange={(e) =>
                 setEditedMemory({ ...editedMemory, title: e.target.value })
               }
-              className="w-full mb-2 border rounded-lg p-2"
+              className="w-full mb-2 rounded-lg p-2 border-[1px] border-dborderColor dark:border-borderColor text-txt dark:text-dtxt bg-lightMain dark:bg-dlightMain focus:outline-none"
             />
             <textarea
               value={editedMemory.description}
@@ -68,29 +68,29 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
                   description: e.target.value
                 })
               }
-              className="w-full mb-3 border rounded-lg p-2"
+              className="w-full mb-3 rounded-lg p-2 border-[1px] border-dborderColor dark:border-borderColor text-txt dark:text-dtxt bg-lightMain dark:bg-dlightMain focus:outline-none"
               rows="3"
             />
           </>
         ) : (
           <>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">
+            <h3 className="text-xl font-bold text-txt dark:text-dtxt mb-2">
               {memory.title}
             </h3>
-            <p className="text-gray-600 mb-4 line-clamp-3">
+            <p className="text-lightTxt dark:text-dlightTxt mb-4 line-clamp-3">
               {memory.description}
             </p>
           </>
         )}
 
-        <div className="flex items-center text-sm text-gray-500 mb-2">
+        <div className="flex items-center text-sm text-blue-500 dark:text-blue-400 mb-2">
           <span className="mr-2">
             <MapPin size={16} />
           </span>
           <span>{memory.location.address}</span>
         </div>
 
-        <div className="flex items-center text-sm text-gray-500">
+        <div className="flex items-center text-sm text-purple-500">
           <span className="mr-2">
             <Calendar size={16} />
           </span>
@@ -110,7 +110,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
         ) : (
           <button
             onClick={handleViewOnMap}
-            className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            className="flex-1 bg-main dark:bg-dmain text-txt dark:text-dtxt py-2 rounded-lg hover:text-dtxt hover:bg-dmain  dark:hover:text-txt dark:hover:bg-main transition"
           >
             View on Map
           </button>
@@ -118,7 +118,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
 
         <button
           onClick={handleEditClick}
-          className="px-4 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+          className="px-4 bg-blue-200 text-blue-500 rounded-lg hover:bg-gray-300 transition"
           disabled={isEditing}
         >
           <Pencil />

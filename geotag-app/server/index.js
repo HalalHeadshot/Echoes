@@ -17,14 +17,17 @@ If Express was a car, express() is like turning the key — app is now the car y
 
 //MIDDLEWARE SETUP-----------------------
 //app.use(...)  // Tells Express to run this middleware function for every request
+//no explicit next() required becaause its inbuilt in cors()
 app.use(cors());
 //CORS (Cross-Origin Resource Sharing) lets your frontend (e.g., React on localhost:5173) 
 //talk to your backend (localhost:5000) without the browser blocking the request for security reasons.
+//no explicit next() required becaause its inbuilt in cor
 app.use(express.json());
 /*
 app.use(express.json())
 This one tells Express:
-“If someone sends me data (like from a form or Axios POST),automatically read the JSON body and make it available in req.body.”
+“If someone sends me data (like from a form or Axios POST),automatically read the JSON body and
+make it available in req.body.”
 
 This way, you don’t have to manually parse JSON every time someone sends data to your backend.
 Without this middleware, if you tried to access req.body, it would be undefined.
@@ -40,6 +43,16 @@ Basically, Express now does this automatically for you.
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
+/*in async await format
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+  }
+};
+ */
 //---------------------------------------
 
 /*test route
@@ -61,7 +74,10 @@ http://localhost:5000
 */
 
 //routes---------------------
-app.use('/api', authRoutes);// Prefix all auth routes with /api and make these routes active
+app.use('/auth', authRoutes);
+//When a request comes in, Express checks the path.
+//If the path starts with /auth, it forwards the request to the authRoutes router.
+
 //------------------------
 // start server
 app.listen(process.env.PORT || 5000, () => console.log('Server running on http://localhost:5000'));

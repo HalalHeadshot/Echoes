@@ -40,14 +40,14 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
   };
 
   return (
-    <div className="fixed z-[999] inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 ">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto overflow-hidden">
-        <div className="p-6">
+    <div className="fixed z-[999] inset-0 backdrop-blur-[10px] bg-dborderColor/50 flex items-center justify-center p-4 ">
+      <div className="rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto overflow-hidden">
+        <div className="p-6 bg-main dark:bg-dlightMain">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">Add New Memory</h2>
+            <h2 className="text-2xl font-bold text-txt dark:text-dtxt">Add New Memory</h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-2xl"
+              className="text-dlightTxt hover:text-txt dark:hover:text-dtxt text-[2rem]"
             >
               ×
             </button>
@@ -55,7 +55,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                 Title
               </label>
               <input
@@ -65,12 +65,12 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                 onChange={handleChange}
                 required
                 placeholder="Beach Sunset"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                 Description
               </label>
               <textarea
@@ -80,12 +80,12 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                 required
                 rows="4"
                 placeholder="Describe your memory..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                 Photo URL
               </label>
               <input
@@ -95,7 +95,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                 onChange={handleChange}
                 required
                 placeholder="https://example.com/photo.jpg"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <p className="text-xs text-gray-500 mt-1">
                 For now, use image URLs. We'll add file upload later!
@@ -103,7 +103,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                 Address
               </label>
               <input
@@ -113,13 +113,13 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                 onChange={handleChange}
                 required
                 placeholder="Santa Monica Beach, CA"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                   Latitude
                 </label>
                 <input
@@ -130,11 +130,11 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                   required
                   step="any"
                   placeholder="34.0195"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                   Longitude
                 </label>
                 <input
@@ -145,14 +145,14 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                   required
                   step="any"
                   placeholder="-118.4912"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <div className="bg-blue-200 border border-blue-200 rounded-lg p-3">
               <p className="text-sm text-blue-800">
-                💡 <strong>Tip:</strong> Get coordinates from{' '}
+                <strong>Tip:</strong> Get coordinates from{' '}
                 <a
                   href="https://www.google.com/maps"
                   target="_blank"
@@ -169,7 +169,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-300 transition"
+                className="flex-1 bg-gray-200 text-txt dark:text-txt py-3 rounded-lg font-medium hover:bg-gray-300 transition"
               >
                 Cancel
               </button>

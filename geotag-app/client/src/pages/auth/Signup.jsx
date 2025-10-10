@@ -70,7 +70,7 @@ const Signup = ({ onSwitchToLogin }) => {
       //Using /api clearly marks routes as API endpoints.
       //Without it, /signup could conflict with a React frontend route /signup
       //axios is a popular library for making HTTP requests.
-      const response = await axios.post(`${BASE_URL}/api/signup`, {
+      const response = await axios.post(`${BASE_URL}/auth/signup`, {
         name: formData.name,
         email: formData.email,
         password: formData.password,
