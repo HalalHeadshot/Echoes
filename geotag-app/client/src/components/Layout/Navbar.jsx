@@ -41,6 +41,18 @@ const Navbar = () => {
                 >
                   Memories
                 </NavLink>
+
+                <NavLink to="/timeline" className={({ isActive }) =>
+                    `p-[5px] h-full flex items-center justify-center rounded-full text-[1.2rem] w-[80px] text-center
+                     text-sm font-medium ${isActive ? 
+                      "bg-dmain text-white dark:bg-main dark:text-black"
+                      : 
+                      "text-black dark:text-white"} 
+                    `
+                  }
+                >
+                  Timeline
+                </NavLink>
                 
                 {/* <button
                   onClick={() => setIsLoggedIn(false)}
@@ -51,12 +63,12 @@ const Navbar = () => {
           </div>
 
           <section className='relative flex items-center text-black h-full bg-white/20 dark:bg-dborderColor/50 backdrop-blur-[2px] border-[1px]
-           border-borderColor dark:border-dborderColor px-[5px] py-[5px] rounded-full' onMouseLeave={() => setShowProfileOptions(false)}>      
+           border-borderColor dark:border-dborderColor rounded-full' onMouseLeave={() => setShowProfileOptions(false)}>      
              
    
-             <div className="overflow-hidden flex w-[40px] h-full bg-main dark:bg-black rounded-full hover:w-[200px] transition-all duration-300">           
-                 <div className="aspect-square min-w-[40px] bg-gray-400 dark:bg-[#393939] rounded-full flex justify-center items-end overflow-hidden">
-                     <i className="fa-solid fa-user text-[1.8rem] text-gray-200 dark:text-gray-400"></i>
+             <div className="overflow-hidden flex w-[50px] h-full bg-main dark:bg-black rounded-full hover:w-[200px] transition-all duration-300">           
+                 <div className="aspect-square min-w-[50px] bg-gray-400 dark:bg-[#393939] rounded-full flex justify-center items-end overflow-hidden">
+                     <i className="fa-solid fa-user text-[2rem] text-gray-200 dark:text-gray-400"></i>
                  </div>
   
                  <div className="p-[5px] w-full flex justify-between">
