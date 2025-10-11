@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MemoriesPage from './pages/MemoriesPage';
+import TimelinePage from './pages/TimelinePage';
 import AuthPage from './pages/auth/AuthPage';
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/memories" element={<MemoriesPage />} />
+          <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/auth" element={<AuthPage />} />
         </Routes>
       </div>
