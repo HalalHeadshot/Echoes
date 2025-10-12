@@ -1,12 +1,245 @@
-
+import React, { useRef, useEffect, useState } from 'react';
 import { useTheme } from "../context/ThemeContext";
 import Navbar from '../components/Layout/Navbar';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { mockMemories } from '../data/mockData';
 
 const TimelinePage = () => {
-  const { dark, setDark } = useTheme();
+  const { dark } = useTheme();
+  const currentYear = new Date().getFullYear();
+  const currentMonthIndex = new Date().getMonth();
+
+  const carouselRefs = useRef([...Array(12)].map(() => React.createRef()));
+  const monthRefs = useRef([...Array(12)].map(() => React.createRef()));
+
+  // ✅ State to track overflow for each month carousel
+  const [hasOverflow, setHasOverflow] = useState(Array(12).fill(false));
+
+  // Check overflow after initial render
+  useEffect(() => {
+    const overflowStatus = carouselRefs.current.map(ref => {
+      const el = ref.current;
+      if (!el) return false;
+      return el.scrollWidth > el.clientWidth;
+    });
+    setHasOverflow(overflowStatus);
+  }, []);
+
+  // Scroll to current month on mount
+  useEffect(() => {
+    const currentMonthDiv = monthRefs.current[currentMonthIndex].current;
+    if (currentMonthDiv) {
+      currentMonthDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [currentMonthIndex]);
+
+  const scrollCarousel = (monthIndex, direction) => {
+    const carousel = carouselRefs.current[monthIndex].current;
+    if (carousel) {
+      const scrollAmount = 200;
+      carousel.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  // Group memories by month
+  const memoriesByMonth = Array.from({ length: 12 }, () => []);
+  mockMemories.forEach(memory => {
+    const monthIndex = new Date(memory.createdAt).getMonth();
+    memoriesByMonth[monthIndex].push(memory);
+  });
+
   return (
-    <div className="bg-main dark:bg-dmain w-full min-h-screen flex flex-col px-[30px]">
+    <div className="bg-main dark:bg-dmain w-full min-h-screen flex flex-col">
       <Navbar />
+
+      <div className="w-full flex">
+        {/* Left Timeline */}
+        <section className="sidebarSection w-[17%] max-w-[200px] bg-lightMain dark:bg-dlightMain min-h-screen flex flex-col">
+          <div
+            data-label="year section"
+            className="archivo leading-none w-full text-txt dark:text-dtxt text-[2.5rem] h-[130px] pb-[20px] pt-[70px] flex justify-center"
+          >
+            {currentYear}
+          </div>
+
+          <section className="w-full flex">
+            {/* Month labels */}
+            <section className="w-[70%] flex flex-col px-[10px]">
+              <div
+                data-label="month section"
+                className="w-full flex flex-col items-end text-txt dark:text-dtxt"
+              >
+                {[
+                  'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
+                ].map((month, i) => (
+                  <div
+                    key={i}
+                    className="w-fit h-[20px] mb-[200px] leading-none flex items-center"
+                  >
+                    {month}&nbsp;
+                    <p className="text-[0.7rem] text-lightTxt dark:text-dlightTxt">
+                      {` [${memoriesByMonth[i].length}]`}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Circles + lines */}
+            <section className="w-[30%] flex flex-col items-center pb-[20px]">
+              <div className="flex flex-col items-center">
+                {Array.from({ length: 12 }, (_, i) => (
+                  <div key={i} className="flex flex-col items-center">
+                    <div
+                      data-label="circle"
+                      className={`w-[20px] aspect-square rounded-full border-[2px] flex items-center justify-center ${
+                        i === currentMonthIndex
+                          ? 'border-accentMain'
+                          : 'border-borderColor dark:border-dborderColor'
+                      }`}
+                    >
+                      <div
+                        data-label="inner circle"
+                        className={`w-[10px] aspect-square rounded-full ${
+                          i === currentMonthIndex
+                            ? 'bg-accentMain'
+                            : 'bg-transparent'
+                        }`}
+                      ></div>
+                    </div>
+
+                    {i < 11 && (
+                      <div
+                        data-label="vertLine"
+                        className={`w-[2px] h-[200px] ${
+                          i === currentMonthIndex
+                            ? 'bg-accentMain w-[5px]'
+                            : 'bg-borderColor dark:bg-dborderColor'
+                        }`}
+                      ></div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          </section>
+        </section>
+
+        {/* Right Timeline */}
+        <section className="timelineSection w-[83%] flex-1 bg-main dark:bg-dmain min-h-screen flex flex-col pt-[130px]">
+          {Array.from({ length: 12 }, (_, i) => (
+            <div key={i}>
+              <div
+                data-label="line container"
+                className="w-full h-[20px] flex items-center px-[20px]"
+              >
+                <div
+                  data-label="line"
+                  className='w-full h-[2px] rounded bg-lightMain dark:bg-dlightMain'
+                ></div>
+              </div>
+
+              {/* Month container with carousel */}
+              <div
+                ref={monthRefs.current[i]}
+                data-label="month container"
+                className={`w-full h-[200px] flex items-start px-[40px] relative ${
+                  currentMonthIndex === i?'bg-[#0092e6]/20':'bg-transparent'
+                }`}
+              >
+                {/* Left scroll button - only if overflow */}
+                {hasOverflow[i] && (
+                  <button
+                    className="absolute z-[50] left-5 top-[calc(40%+10px)] -translate-y-1/2 rounded-full flex items-center justify-center aspect-square w-[30px] bg-dmain dark:bg-main text-dtxt dark:text-txt shadow-md"
+                    onClick={() => scrollCarousel(i, -1)}
+                  >
+                    <ChevronLeft />
+                  </button>
+                )}
+
+                {/* Right scroll button - only if overflow */}
+                {hasOverflow[i] && (
+                  <button
+                    className="absolute z-[50] right-5 top-[calc(40%+10px)] -translate-y-1/2 rounded-full flex items-center justify-center aspect-square w-[30px] bg-dmain dark:bg-main text-dtxt dark:text-txt shadow-md"
+                    onClick={() => scrollCarousel(i, 1)}
+                  >
+                    <ChevronRight />
+                  </button>
+                )}
+
+                {/* Scrollable carousel */}
+                <section
+                  ref={carouselRefs.current[i]}
+                  data-label="image carousel container"
+                  className="pt-[10px] w-full h-[160px] flex space-x-3 overflow-hidden scrollbar-hide"
+                  style={{ scrollBehavior: 'smooth' }}
+                >
+                  {memoriesByMonth[i].length > 0 ? (
+  memoriesByMonth[i].map((memory, idx) => {
+    // 🎨 Array of color themes for pins
+    const pinColors = [
+      { head: 'from-red-500 to-red-800', inner: 'bg-red-900', stem: 'bg-red-950' },
+      { head: 'from-blue-500 to-blue-800', inner: 'bg-blue-900', stem: 'bg-blue-950' },
+      { head: 'from-green-500 to-green-800', inner: 'bg-green-900', stem: 'bg-green-950' },
+      { head: 'from-yellow-400 to-yellow-600', inner: 'bg-yellow-700', stem: 'bg-yellow-800' },
+      { head: 'from-pink-500 to-pink-800', inner: 'bg-pink-900', stem: 'bg-pink-950' },
+      { head: 'from-purple-500 to-purple-800', inner: 'bg-purple-900', stem: 'bg-purple-950' },
+    ];
+
+     // Pick a random color
+    const color = pinColors[Math.floor(Math.random() * pinColors.length)];
+
+    // Pick a slight random tilt between -8° and +8°
+    const rotation = Math.floor(Math.random() * 17) - 8;
+
+    return (
+      <article
+        key={memory.id}
+        data-label="image container"
+        className="relative h-full p-[4px] min-w-[120px] bg-borderColor dark:bg-dtxt rounded-md overflow-hidden"
+      >
+        {/* 🧷 Push Pin */}
+        <div className="absolute z-[10] flex flex-col items-center left-1/2 -translate-x-1/2 top-[6px] pointer-events-none">
+          
+
+          {/* Pin head */}
+          <div
+            className={`relative flex items-center justify-center bg-gradient-to-b ${color.head} rounded-full shadow-md w-[18px] aspect-square`}
+          >
+            {/* Inner dome */}
+            <div className={`${color.inner} w-[8px] aspect-square rounded-full shadow-inner`}></div>
+
+            {/* Highlight */}
+            <div className="absolute top-[3px] left-[4px] w-[4px] h-[4px] bg-white/60 rounded-full"></div>
+          </div>
+
+          {/* Pin stem */}
+          <div className={`w-[3px] h-[4px] ${color.stem} rounded-b-full`}></div>
+
+          {/* Drop shadow */}
+          <div className="w-[8px] h-[6px] bg-black/30 blur-[2px] rounded-full"></div>
+        </div>
+
+        {/* Image */}
+        <img
+          src={memory.photoUrl}
+          alt={memory.title}
+          className="w-full h-full object-cover rounded-sm"
+        />
+      </article>
+    );
+  })
+) : (
+  <p className="text-lightTxt dark:text-dlightTxt text-sm">
+    No memories this month
+  </p>
+)}
+                </section>
+              </div>
+            </div>
+          ))}
+        </section>
+      </div>
     </div>
   );
 };

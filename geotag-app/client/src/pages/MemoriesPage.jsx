@@ -34,17 +34,17 @@ const MemoriesPage = () => {
   return (
     <div className="bg-main dark:bg-dmain w-full min-h-screen flex flex-col px-[30px]">
       <Navbar />
-      <div className="mt-[70px] flex-1 bg-main dark:bg-dmain  pb-[5px] pt-[15px]">
+      <div className="mt-[70px] flex flex-col justify-center items-center bg-main dark:bg-dmain  pb-[5px] pt-[15px]">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
+        <div className="flex w-full mb-[20px] justify-between items-center">
+          <div> { memories.length === 0 ?<></>:<>
             <h1 className="text-4xl font-bold text-txt dark:text-dtxt mb-2">
               My Memories
             </h1>
             <p className="text-lightTxt dark:text-dlightTxt">
               {memories.length}{' '}
               {memories.length === 1 ? 'memory' : 'memories'} saved
-            </p>
+            </p></>}
           </div>
           { memories.length === 0 ?
           <></> : 
@@ -60,7 +60,7 @@ const MemoriesPage = () => {
 
         {/* Memories Grid */}
         {memories.length === 0 ? (
-          <div className="pb-[10px] flex flex-col items-center text-center w-full h-[100%] border-dashed border-[2px] border-borderColor dark:border-dborderColor rounded-lg">
+          <div className="pb-[10px] flex flex-col items-center  text-center w-full h-[100%]  rounded-lg">
             <Lottie animationData={animationData} loop={true} className="h-[250px] aspect-square overflow-hidden"/>
             <p className="text-txt dark:text-dtxt text-lg mb-4">No memories yet</p>
             <button

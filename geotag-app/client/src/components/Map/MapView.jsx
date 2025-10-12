@@ -30,7 +30,7 @@ const MapView = ({ memories }) => {
   dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",    // Carto Dark
   };
 
- const mapStyle = dark ? "dark" : "streets"; // auto switch based on global theme
+ const mapStyle = dark ? "dark" : "light"; // auto switch based on global theme
   return (
     <div className="relative h-full w-full">
       <MapContainer

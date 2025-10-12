@@ -9,7 +9,7 @@ const Navbar = () => {
    const { dark, setDark } = useTheme();
 
   return (
-       <nav className="transparent fixed z-[999] top-[20px] left-0 right-0 px-[30px]">
+       <nav className="transparent backdrop-blur-lg fixed z-[999] top-[0px] py-[5px] left-0 right-0 px-[20px]">
         <div className="flex justify-between items-center h-[50px] relative z-10">
           {/* Logo/Brand */}
           <Link to="/" className="flex items-center space-x-2">
@@ -66,8 +66,8 @@ const Navbar = () => {
            border-borderColor dark:border-dborderColor rounded-full' onMouseLeave={() => setShowProfileOptions(false)}>      
              
    
-             <div className="overflow-hidden flex w-[50px] h-full bg-main dark:bg-black rounded-full hover:w-[200px] transition-all duration-300">           
-                 <div className="aspect-square min-w-[50px] bg-gray-400 dark:bg-[#393939] rounded-full flex justify-center items-end overflow-hidden">
+             <div className="overflow-hidden flex w-[50px] h-full bg-main/50 dark:bg-dborderColor/50 backdrop-blur-[2px] rounded-full hover:w-[200px] transition-all duration-300">           
+                 <div className="aspect-square min-w-[50px] border-[1px] bg-gray-400 dark:bg-[#393939] dark:border-dmain rounded-full flex justify-center items-end overflow-hidden">
                      <i className="fa-solid fa-user text-[2rem] text-gray-200 dark:text-gray-400"></i>
                  </div>
   
@@ -84,19 +84,19 @@ const Navbar = () => {
              </div>
 
             {(showProfileOptions)?
-              <div className="profileOptions absolute top-[45px] rounded-md right-[0px] h-fit w-fit bg-white/50 dark:bg-dborderColor/50 backdrop-blur-[2px] border-[1px]
+              <div className="profileOptions absolute top-[50px] rounded-md right-[0px] h-fit w-fit bg-white/95 dark:bg-dborderColor/95 backdrop-blur-md border-[1px]
            border-borderColor dark:border-dborderColor shadow-lg p-[5px]">
-                  <button className="text-[1rem] h-full flex py-[5px] w-full text-lightTxt dark:text-dlightTxt"
+                  <button className="text-[0.9rem] h-full flex py-[5px] w-full text-lightTxt dark:text-dlightTxt"
                    onClick={() => setDark(prev => !prev)}>
                     {(!dark)?
-                    <section className="flex w-full justify-start"><MoonStar /><p className='whitespace-nowrap w-[90px]'>Dark mode</p></section>:
-                    <section className="flex w-full justify-start"><SunMedium /><p className='whitespace-nowrap  w-[90px]'>Light mode</p></section>
+                    <section className="flex w-full justify-start"><MoonStar className='scale-[0.8]'/><p className='pl-[5px] flex justify-start whitespace-nowrap w-[90px]'>Dark mode</p></section>:
+                    <section className="flex w-full justify-start"><SunMedium className='scale-[0.8] w-fit' /><p className='pl-[5px] flex justify-start whitespace-nowrap  w-[90px]'>Light mode</p></section>
                     }
                   </button>
         
-                  <button className="text-[1rem] h-full flex  justify-start py-[5px] border-t-[1px] border-borderColor dark:border-dborderColor text-lightTxt dark:text-dlightTxt w-full"
+                  <button className="text-[0.9rem] h-full flex  justify-start py-[5px] border-t-[1px] border-borderColor dark:border-dborderColor text-lightTxt dark:text-dlightTxt w-full"
                           onClick={() => setIsLoggedIn(false)} >
-                    <LogOut/>Log Out
+                    <LogOut className='scale-[0.8]' /><p className='pl-[5px] whitespace-nowrap w-[90px] flex justify-start'>Log Out</p>
                   </button>
              </div>
              :
