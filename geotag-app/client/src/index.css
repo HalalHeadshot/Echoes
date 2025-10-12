@@ -1,11 +1,9 @@
 /* Import Leaflet CSS (required for maps to display correctly) */
 @import 'leaflet/dist/leaflet.css';
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 /* Custom global styles */
 * {
@@ -22,6 +20,33 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.popupCustom .leaflet-popup-content{
-  margin:0px;
+.popupCustom .leaflet-popup-content {
+  margin: 0px;
 }
+
+/* SCROLLBAR ----------------------------------------------------------------------------------------------- */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* -------------------------------------------------------------------------------------------------------- */
+
+
+
+/* FONTS -------------------------------------------------------------------------------------------------- */
+/* BOLD BIGG FONTS --------------------- */
+.archivo {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ------------------------------------- */
+
+
+/* ------------------------------------------------------------------------------------------------------- */
