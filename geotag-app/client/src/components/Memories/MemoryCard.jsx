@@ -79,12 +79,14 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
         {/* --- Buttons (top layer) --- */}
         <div className="absolute top-3 right-3 flex gap-2 z-20">
           {/* Toggle Chevron */}
-          <button
-            onClick={() => setShowDetails(!showDetails)}
-            className="bg-main/30 dark:bg-dmain/30 backdrop-blur-sm text-txt dark:text-dtxt p-2 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition"
-          >
-            {showDetails ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
-          </button>
+          <button onClick={(e) => {
+             e.stopPropagation();  // prevent parent onClick
+             setShowDetails(!showDetails);
+           }}
+           className="bg-main/30 dark:bg-dmain/30 backdrop-blur-sm text-txt dark:text-dtxt p-2 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition"
+         >
+           {showDetails ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+         </button>
 
           {/* Download Button */}
           <button

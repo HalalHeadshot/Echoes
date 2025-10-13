@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import { NavLink } from "react-router-dom";
-import { MoonStar,SunMedium,LogOut,ChevronDown } from 'lucide-react';
+import { MoonStar,SunMedium,LogOut,ChevronDown,User } from 'lucide-react';
 import { useTheme } from "../../context/ThemeContext";
+import Modal from "./Modal";
 
 const Navbar = () => {
    const [showProfileOptions, setShowProfileOptions] = useState(false);
    const { dark, setDark } = useTheme();
+   const [openModal, setOpenModal] = useState(false);
 
   return (
        <nav className="transparent backdrop-blur-lg fixed z-[999] top-[0px] py-[5px] left-0 right-0 px-[20px]">
@@ -86,7 +88,54 @@ const Navbar = () => {
             {(showProfileOptions)?
               <div className="profileOptions absolute top-[50px] rounded-md right-[0px] h-fit w-fit bg-white/95 dark:bg-dborderColor/95 backdrop-blur-md border-[1px]
            border-borderColor dark:border-dborderColor shadow-lg p-[5px]">
-                  <button className="text-[0.9rem] h-full flex py-[5px] w-full text-lightTxt dark:text-dlightTxt"
+                  
+                   <button className="text-[0.9rem] h-full flex  justify-start py-[5px] text-lightTxt dark:text-dlightTxt w-full"
+                   onClick={() => setOpenModal(true)}>
+                    <User className='scale-[0.8]' /><p className='pl-[5px] whitespace-nowrap w-[90px] flex justify-start'>profile</p>
+                  </button>
+
+                      <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
+                        <div className="w-full max-w-2xl bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-2xl overflow-hidden">
+                        {/* Cover image */}
+                        <div className=" h-32 w-full bg-gradient-to-r from-orange-400 via-pink-400 to-cyan-400 relative">
+                         
+                        </div>
+                      
+                        {/* Profile section */}
+                        <div className="px-6 pb-6">
+                          {/* Profile picture and buttons */}
+                          <div className="flex items-start justify-between -mt-16 mb-4">
+                            <div className="z-[10] absoulte w-32 h-32 rounded-full border-4 border-white dark:border-[#1a1a1a] overflow-hidden bg-gray-300 flex items-center justify-center">
+                              <i className="fa-solid fa-user text-5xl text-gray-500"></i>
+                            </div>
+                            
+                            <div className="flex gap-2 mt-20">
+                              <button className="px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
+                                Edit Profile
+                              </button>
+                            </div>
+                          </div>
+                      
+                          {/* Name and info */}
+                          <div className="mb-6">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">Emma Smith</h2>
+                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">Software Engineer</p>
+                            <p className="text-gray-500 dark:text-gray-500 text-sm">Los Angeles, California</p>
+                          </div>
+                      
+                          {/* Current role badge */}
+                          <div className="mb-6 flex items-center gap-2">
+                            <span className="text-gray-500 dark:text-gray-400 text-sm">Current role</span>
+                            <i className="fa-solid fa-briefcase text-gray-400 text-xs"></i>
+                            <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium">
+                              Software Engineer
+                            </span>
+                          </div>                 
+                        </div>
+                      </div>
+                  </Modal>
+                  
+                  <button className="text-[0.9rem] h-full flex py-[5px] w-full border-t-[1px] border-borderColor dark:border-dborderColor text-lightTxt dark:text-dlightTxt"
                    onClick={() => setDark(prev => !prev)}>
                     {(!dark)?
                     <section className="flex w-full justify-start"><MoonStar className='scale-[0.8]'/><p className='pl-[5px] flex justify-start whitespace-nowrap w-[90px]'>Dark mode</p></section>:

@@ -198,7 +198,7 @@ const TimelinePage = () => {
         data-label="image container"
         className="relative h-full p-[4px] min-w-[120px] bg-borderColor dark:bg-dtxt rounded-md overflow-hidden"
       >
-        {/* 🧷 Push Pin */}
+        {/* Push Pin */}
         <div className="absolute z-[10] flex flex-col items-center left-1/2 -translate-x-1/2 top-[6px] pointer-events-none">
           
 
