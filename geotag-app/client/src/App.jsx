@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MemoriesPage from './pages/MemoriesPage';
 import TimelinePage from './pages/TimelinePage';
+import AnalyticsPage from './pages/AnalyticsPage'
 import AuthPage from './pages/auth/AuthPage';
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/memories" element={<MemoriesPage />} />
           <Route path="/timeline" element={<TimelinePage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/auth" element={<AuthPage />} />
         </Routes>
       </div>

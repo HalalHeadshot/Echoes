@@ -12,7 +12,7 @@ const Modal = ({ isOpen, onClose, children }) => {
   return (
     <ModalPortal>
       <div
-        className="fixed inset-0 bg-main/30 backdrop-blur-sm flex items-center justify-center z-[9999]"
+        className="fixed inset-0 bg-dmain/30 backdrop-blur-sm flex items-center justify-center z-[9999]"
         onClick={onClose}
       >
         <div

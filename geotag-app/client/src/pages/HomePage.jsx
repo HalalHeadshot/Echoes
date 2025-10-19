@@ -16,8 +16,9 @@ const HomePage = () => {
       <Navbar/> 
       <MapView memories={mockMemories}/>
 
-      <div className="w-fit absolute bottom-[10px] left-1/2 -translate-x-1/2 z-[950]">
-        <p className="text-lightTxt dark:text-dlightTxt text-[0.8rem]">
+      <div className="w-fit absolute bottom-[20px] left-1/2 -translate-x-1/2 z-[950]">
+        <p className="font-semibold bg-gradient-to-r from-dorangeMain via-dpinkMain to-dcyanMain dark:from-orangeMain/70 dark:via-pinkMain/70 dark:to-cyanMain/70 
+        bg-clip-text text-transparent text-[0.8rem]">
           &lt;&lt;Click on any marker to view memories from that location&gt;&gt;
         </p>
       </div>

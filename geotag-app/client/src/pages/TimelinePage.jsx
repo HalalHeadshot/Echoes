@@ -94,7 +94,7 @@ const TimelinePage = () => {
                       data-label="circle"
                       className={`w-[20px] aspect-square rounded-full border-[2px] flex items-center justify-center ${
                         i === currentMonthIndex
-                          ? 'border-accentMain'
+                          ? 'border-orangeMain'
                           : 'border-borderColor dark:border-dborderColor'
                       }`}
                     >
@@ -102,7 +102,7 @@ const TimelinePage = () => {
                         data-label="inner circle"
                         className={`w-[10px] aspect-square rounded-full ${
                           i === currentMonthIndex
-                            ? 'bg-accentMain'
+                            ? 'bg-orangeMain'
                             : 'bg-transparent'
                         }`}
                       ></div>
@@ -111,10 +111,10 @@ const TimelinePage = () => {
                     {i < 11 && (
                       <div
                         data-label="vertLine"
-                        className={`w-[2px] h-[200px] ${
+                        className={`h-[200px] ${
                           i === currentMonthIndex
-                            ? 'bg-accentMain w-[5px]'
-                            : 'bg-borderColor dark:bg-dborderColor'
+                            ? 'bg-gradient-to-b from-orangeMain via-pinkMain to-cyanMain w-[5px]'
+                            : 'bg-borderColor dark:bg-dborderColor w-[2px]'
                         }`}
                       ></div>
                     )}
@@ -144,7 +144,7 @@ const TimelinePage = () => {
                 ref={monthRefs.current[i]}
                 data-label="month container"
                 className={`w-full h-[200px] flex items-start px-[40px] relative ${
-                  currentMonthIndex === i?'bg-[#0092e6]/20':'bg-transparent'
+                  currentMonthIndex === i?'dark:bg-dslightLightMain bg-slightLightMain ':'bg-transparent'
                 }`}
               >
                 {/* Left scroll button - only if overflow */}
@@ -175,65 +175,66 @@ const TimelinePage = () => {
                   style={{ scrollBehavior: 'smooth' }}
                 >
                   {memoriesByMonth[i].length > 0 ? (
-  memoriesByMonth[i].map((memory, idx) => {
-    // 🎨 Array of color themes for pins
-    const pinColors = [
-      { head: 'from-red-500 to-red-800', inner: 'bg-red-900', stem: 'bg-red-950' },
-      { head: 'from-blue-500 to-blue-800', inner: 'bg-blue-900', stem: 'bg-blue-950' },
-      { head: 'from-green-500 to-green-800', inner: 'bg-green-900', stem: 'bg-green-950' },
-      { head: 'from-yellow-400 to-yellow-600', inner: 'bg-yellow-700', stem: 'bg-yellow-800' },
-      { head: 'from-pink-500 to-pink-800', inner: 'bg-pink-900', stem: 'bg-pink-950' },
-      { head: 'from-purple-500 to-purple-800', inner: 'bg-purple-900', stem: 'bg-purple-950' },
-    ];
-
-     // Pick a random color
-    const color = pinColors[Math.floor(Math.random() * pinColors.length)];
-
-    // Pick a slight random tilt between -8° and +8°
-    const rotation = Math.floor(Math.random() * 17) - 8;
-
-    return (
-      <article
-        key={memory.id}
-        data-label="image container"
-        className="relative h-full p-[4px] min-w-[120px] bg-borderColor dark:bg-dtxt rounded-md overflow-hidden"
-      >
-        {/* Push Pin */}
-        <div className="absolute z-[10] flex flex-col items-center left-1/2 -translate-x-1/2 top-[6px] pointer-events-none">
-          
-
-          {/* Pin head */}
-          <div
-            className={`relative flex items-center justify-center bg-gradient-to-b ${color.head} rounded-full shadow-md w-[18px] aspect-square`}
-          >
-            {/* Inner dome */}
-            <div className={`${color.inner} w-[8px] aspect-square rounded-full shadow-inner`}></div>
-
-            {/* Highlight */}
-            <div className="absolute top-[3px] left-[4px] w-[4px] h-[4px] bg-white/60 rounded-full"></div>
-          </div>
-
-          {/* Pin stem */}
-          <div className={`w-[3px] h-[4px] ${color.stem} rounded-b-full`}></div>
-
-          {/* Drop shadow */}
-          <div className="w-[8px] h-[6px] bg-black/30 blur-[2px] rounded-full"></div>
-        </div>
-
-        {/* Image */}
-        <img
-          src={memory.photoUrl}
-          alt={memory.title}
-          className="w-full h-full object-cover rounded-sm"
-        />
-      </article>
-    );
-  })
-) : (
-  <p className="text-lightTxt dark:text-dlightTxt text-sm">
-    No memories this month
-  </p>
-)}
+                    memoriesByMonth[i].map((memory, idx) => {
+                      //Array of color themes for pins
+                      const pinColors = [
+                        { head: 'from-red-500 to-red-800', inner: 'bg-red-900', stem: 'bg-red-950' },
+                        { head: 'from-blue-500 to-blue-800', inner: 'bg-blue-900', stem: 'bg-blue-950' },
+                        { head: 'from-green-500 to-green-800', inner: 'bg-green-900', stem: 'bg-green-950' },
+                        { head: 'from-yellow-400 to-yellow-600', inner: 'bg-yellow-700', stem: 'bg-yellow-800' },
+                        { head: 'from-pink-500 to-pink-800', inner: 'bg-pink-900', stem: 'bg-pink-950' },
+                        { head: 'from-purple-500 to-purple-800', inner: 'bg-purple-900', stem: 'bg-purple-950' },
+                      ];
+                  
+                       // Pick a random color
+                      const color = pinColors[Math.floor(Math.random() * pinColors.length)];
+                  
+                      const options = [-0.5, 0, 0.5];
+                      const rotation = options[Math.floor(Math.random() * options.length)];
+                  
+                        return (
+                        <article
+                          key={memory.id}
+                          data-label="image container"
+                          className="relative h-full p-[4px] min-w-[120px] bg-borderColor dark:bg-dtxt rounded-md overflow-hidden"
+                          style={{ transform: `rotate(${rotation}deg)` }}>
+                        
+                          {/* Push Pin */}
+                          <div className="absolute z-[10] flex flex-col items-center left-1/2 -translate-x-1/2 top-[6px] pointer-events-none">
+                            
+                  
+                            {/* Pin head */}
+                            <div
+                              className={`relative flex items-center justify-center bg-gradient-to-b ${color.head} rounded-full shadow-md w-[18px] aspect-square`}
+                            >
+                              {/* Inner dome */}
+                              <div className={`${color.inner} w-[8px] aspect-square rounded-full shadow-inner`}></div>
+                  
+                              {/* Highlight */}
+                              <div className="absolute top-[3px] left-[4px] w-[4px] h-[4px] bg-white/60 rounded-full"></div>
+                            </div>
+                  
+                            {/* Pin stem */}
+                            <div className={`w-[3px] h-[4px] ${color.stem} rounded-b-full`}></div>
+                  
+                            {/* Drop shadow */}
+                            <div className="w-[8px] h-[6px] bg-black/30 blur-[2px] rounded-full"></div>
+                          </div>
+                  
+                          {/* Image */}
+                          <img
+                            src={memory.photoUrl}
+                            alt={memory.title}
+                            className="w-full h-full object-cover rounded-sm"
+                          />
+                        </article>
+                        );
+                      })
+                    ) : (
+                      <p className="text-lightTxt dark:text-dlightTxt text-sm">
+                        No memories this month
+                      </p>
+                    )}
                 </section>
               </div>
             </div>
@@ -241,6 +242,7 @@ const TimelinePage = () => {
         </section>
       </div>
     </div>
+  
   );
 };
 

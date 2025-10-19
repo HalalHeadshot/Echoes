@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import { NavLink } from "react-router-dom";
-import { MoonStar,SunMedium,LogOut,ChevronDown,User } from 'lucide-react';
+import { MoonStar,SunMedium,LogOut,ChevronDown,User,ChartNoAxesColumn } from 'lucide-react';
 import { useTheme } from "../../context/ThemeContext";
 import Modal from "./Modal";
 
@@ -64,6 +64,15 @@ const Navbar = () => {
                 </button> */}
           </div>
 
+         <div className='w-fit h-[50px] flex'>
+         <button onClick={() => setDark(prev => !prev)} className="flex text-borderColor dark:text-dlightTxt items-center justify-center h-full w-full mr-5">
+           {dark ? (
+             <SunMedium className="scale-[1.2] transition-all duration-300" />
+           ) : (
+             <MoonStar className="scale-[1.2] transition-all duration-300" />
+           )}
+         </button>
+
           <section className='relative flex items-center text-black h-full bg-white/20 dark:bg-dborderColor/50 backdrop-blur-[2px] border-[1px]
            border-borderColor dark:border-dborderColor rounded-full' onMouseLeave={() => setShowProfileOptions(false)}>      
              
@@ -91,13 +100,13 @@ const Navbar = () => {
                   
                    <button className="text-[0.9rem] h-full flex  justify-start py-[5px] text-lightTxt dark:text-dlightTxt w-full"
                    onClick={() => setOpenModal(true)}>
-                    <User className='scale-[0.8]' /><p className='pl-[5px] whitespace-nowrap w-[90px] flex justify-start'>profile</p>
+                    <User className='scale-[0.8]' /><p className='pl-[5px] whitespace-nowrap w-[90px] flex justify-start'>Profile</p>
                   </button>
 
                       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
                         <div className="w-full max-w-2xl bg-white dark:bg-[#1a1a1a] rounded-2xl shadow-2xl overflow-hidden">
                         {/* Cover image */}
-                        <div className=" h-32 w-full bg-gradient-to-r from-orange-400 via-pink-400 to-cyan-400 relative">
+                        <div className=" h-20 w-full bg-gradient-to-r from-orange-400 via-pink-400 to-cyan-400 relative">
                          
                         </div>
                       
@@ -135,13 +144,11 @@ const Navbar = () => {
                       </div>
                   </Modal>
                   
-                  <button className="text-[0.9rem] h-full flex py-[5px] w-full border-t-[1px] border-borderColor dark:border-dborderColor text-lightTxt dark:text-dlightTxt"
-                   onClick={() => setDark(prev => !prev)}>
-                    {(!dark)?
-                    <section className="flex w-full justify-start"><MoonStar className='scale-[0.8]'/><p className='pl-[5px] flex justify-start whitespace-nowrap w-[90px]'>Dark mode</p></section>:
-                    <section className="flex w-full justify-start"><SunMedium className='scale-[0.8] w-fit' /><p className='pl-[5px] flex justify-start whitespace-nowrap  w-[90px]'>Light mode</p></section>
-                    }
-                  </button>
+                   <NavLink to="/analytics" className='text-[0.9rem] h-full flex py-[5px] w-full border-t-[1px] border-borderColor dark:border-dborderColor text-lightTxt dark:text-dlightTxt'>
+                      <ChartNoAxesColumn className='scale-[0.8]' /><p className='pl-[5px] whitespace-nowrap w-[90px] flex justify-start'>Analytics</p>
+                   </NavLink>
+
+                  
         
                   <button className="text-[0.9rem] h-full flex  justify-start py-[5px] border-t-[1px] border-borderColor dark:border-dborderColor text-lightTxt dark:text-dlightTxt w-full"
                           onClick={() => setIsLoggedIn(false)} >
@@ -152,6 +159,7 @@ const Navbar = () => {
              <></>
             }       
           </section>
+          </div>
 
         </div>
 

@@ -65,7 +65,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
   return (
     <>
       {/* --- CARD --- */}
-      <div className="relative bg-lightMain dark:bg-dlightMain rounded-lg shadow-md overflow-hidden transition duration-300">
+      <div className="relative bg-lightMain dark:bg-dlightMain shadow-md overflow-hidden transition duration-300">
         {/* --- Image --- */}
         <img
           src={memory.photoUrl}
