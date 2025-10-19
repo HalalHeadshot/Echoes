@@ -65,7 +65,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                 onChange={handleChange}
                 required
                 placeholder="Beach Sunset"
-                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
@@ -80,7 +80,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                 required
                 rows="4"
                 placeholder="Describe your memory..."
-                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
@@ -95,7 +95,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                 onChange={handleChange}
                 required
                 placeholder="https://example.com/photo.jpg"
-                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <p className="text-xs text-gray-500 mt-1">
                 For now, use image URLs. We'll add file upload later!
@@ -113,7 +113,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                 onChange={handleChange}
                 required
                 placeholder="Santa Monica Beach, CA"
-                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
@@ -130,7 +130,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                   required
                   step="any"
                   placeholder="34.0195"
-                  className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
               <div>
@@ -145,13 +145,13 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
                   required
                   step="any"
                   placeholder="-118.4912"
-                  className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
             </div>
 
-            <div className="bg-blue-200 border border-blue-200 rounded-lg p-3">
-              <p className="text-sm text-blue-800">
+            <div className="bg-purple-300 border border-purple-200 rounded-lg p-3">
+              <p className="text-sm text-purple-800">
                 <strong>Tip:</strong> Get coordinates from{' '}
                 <a
                   href="https://www.google.com/maps"
@@ -175,7 +175,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition"
+                className="flex-1 bg-gradient-to-r from-dorangeMain via-dpinkMain to-dcyanMain text-white py-3 rounded-lg font-medium transition"
               >
                 Add Memory
               </button>

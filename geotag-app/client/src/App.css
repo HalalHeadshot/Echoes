@@ -5,6 +5,13 @@
   text-align: center;
 }
 
+.gradient-icon {
+  background: linear-gradient(to right, #ff6b00, #ff3cac, #00ffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 0 6px rgba(255, 100, 255, 0.6));
+}
 
 .card {
   padding: 2em;

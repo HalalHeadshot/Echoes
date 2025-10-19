@@ -50,7 +50,7 @@ const MemoriesPage = () => {
           <></> : 
           <button
             onClick={() => setShowAddForm(true)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition flex items-center gap-2"
+            className="bg-gradient-to-r from-dorangeMain via-dpinkMain to-dcyanMain text-dtxt font-semibold px-6 py-3 rounded-lg  transition flex items-center gap-2"
           >
             <span className="text-xl">+</span>
             Add Memory
@@ -71,7 +71,7 @@ const MemoriesPage = () => {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             {memories.map((memory) => (
               <MemoryCard
                 key={memory.id}

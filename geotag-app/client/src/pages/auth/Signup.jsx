@@ -101,7 +101,7 @@ const Signup = ({ onSwitchToLogin }) => {
   };
 
   return (
-    <div className="h-[100vh] w-[100vw] relative flex items-center bg-[#264a92]">
+    <div className="h-[100vh] w-[100vw] relative flex items-center bg-dlightMain">
       {(error)?
       <div className='flex items-center text-red-500 bg-red-500/45 backdrop-blur-md absolute z-[50] top-[20px] left-[50%] -translate-x-1/2 p-[10px] rounded-md border-[1px] border-red-500'>
         {error}
@@ -110,7 +110,7 @@ const Signup = ({ onSwitchToLogin }) => {
       <div className='display-none'></div>
       }
       <div className="formDiv flex justify-start items-center w-fit h-[400px] transparent overflow-hidden">
-        <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>;
+        {/* <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>; */}
       </div>
       <div className="formDiv flex justify-center absolute z-10 h-full w-[50%] top-0 right-0 bg-gray-200 shadow-lg rounded-l-[30px]">
         <form
@@ -189,7 +189,7 @@ const Signup = ({ onSwitchToLogin }) => {
           {/* Submit */}
           <button
             type="submit"
-            className="bg-blue-500 p-[10px] rounded-[10px] text-white font-semibold hover:bg-blue-600 transition"
+            className="bg-gradient-main p-[10px] rounded-[10px] text-white font-semibold "
           >
             Create Account
           </button>
@@ -212,7 +212,7 @@ const Signup = ({ onSwitchToLogin }) => {
             <button
               type="button"
               onClick={onSwitchToLogin}
-              className="text-blue-500 hover:underline"
+              className="gradient-main hover:underline"
             >
               Sign In
             </button>

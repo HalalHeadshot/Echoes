@@ -25,7 +25,7 @@ const Login = ({ onSwitchToSignup }) => {
   };
 
   return (
-    <div className="h-[100vh] w-[100vw] relative flex items-center bg-[#264a92]">
+    <div className="h-[100vh] w-[100vw] relative flex items-center bg-dlightMain">
       <div className="formDiv flex justify-start items-center w-fit h-[400px] transparent overflow-hidden">
         <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>;
       </div>
@@ -73,7 +73,7 @@ const Login = ({ onSwitchToSignup }) => {
           {/* Submit */}
           <button
             type="submit"
-            className="bg-blue-500 p-[10px] rounded-[10px] text-white font-semibold hover:bg-blue-600 transition"
+            className="bg-gradient-main p-[10px] rounded-[10px] text-white font-semibold transition"
           >
             Log in
           </button>
