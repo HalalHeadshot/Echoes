@@ -1,6 +1,7 @@
 import MapView from '../components/Map/MapView';
 import { mockMemories } from '../data/mockData';
 import Navbar from '../components/Layout/Navbar';
+import GradientText from '../components/Layout/GradientText';
 import { LogOut } from 'lucide-react';
 import { useTheme } from "../context/ThemeContext";
 
@@ -17,10 +18,9 @@ const HomePage = () => {
       <MapView memories={mockMemories}/>
 
       <div className="w-fit absolute bottom-[20px] left-1/2 -translate-x-1/2 z-[950]">
-        <p className="font-semibold bg-gradient-to-r from-dorangeMain via-dpinkMain to-dcyanMain dark:from-orangeMain/70 dark:via-pinkMain/70 dark:to-cyanMain/70 
-        bg-clip-text text-transparent text-[0.8rem]">
-          &lt;&lt;Click on any marker to view memories from that location&gt;&gt;
-        </p>
+        <GradientText colors={["#9f9f9fff", "#3c3c3cff","#adadadff","#3c3c3cff", "#727272ff"]} animationSpeed={5} showBorder={false} className="custom-class text-[0.8rem]">
+             &lt;&lt;Click on any marker to view memories from that location&gt;&gt;
+         </GradientText>
       </div>
       
        <div className="gradientContainerBottom absolute z-[900] h-[50px] bg-[linear-gradient(to_top,theme(colors.fadeColor)_0%,transparent_100%)] 

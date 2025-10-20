@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 import Navbar from '../components/Layout/Navbar';
+import GradientText from '../components/Layout/GradientText';
 import Tooltip from "../components/Layout/Tooltip";
 import { CircleQuestionMark } from 'lucide-react';
 import React from "react";
@@ -42,22 +43,18 @@ const sampleBars = [
 const count=34;
 const countRef = useRef(null);
 
+const [animatedCount, setAnimatedCount] = useState(0);
 
 useEffect(() => {
-    if (count === undefined || count === null) return; // don’t animate until we actually have a value
+  const obj = { val: 0 };
+  gsap.to(obj, {
+    val: count,
+    duration: 1,
+    ease: "power1.out",
+    onUpdate: () => setAnimatedCount(Math.floor(obj.val))
+  });
+}, [count]);
 
-    const obj = { val: 0 }; // start at 0
-    gsap.to(obj, {
-      val: count, // animate up to the current value from backend
-      duration: 1,
-      ease: "power1.out",
-      onUpdate: () => {
-        if (countRef.current) {
-          countRef.current.textContent = Math.floor(obj.val);
-        }
-      },
-    });
-  }, [count]);
 
    const [isDark, setIsDark] = useState(
     document.documentElement.classList.contains('dark')
@@ -101,17 +98,23 @@ return (
       
        <Navbar />
 
-        <section data-label='memCountSection' className='z-[10] top-[70px] absolute text-center h-fit left-[30px] right-[30px] mt-[0px] mb-[20px] p-[20px] text-txt dark:text-dtxt rounded-xl bg-[#f3f3f3] dark:bg-[#28282884]'>
-          <p className='figtree text-[3rem]'>Memories This year:&nbsp;<span className="w-fit bg-gradient-to-b from-dorangeMain via-dpinkMain to-dcyanMain bg-clip-text text-transparent" ref={countRef}>0</span></p>
-       </section>
+        <section data-label='memCountSection' className='z-[10] top-[70px] absolute text-center h-fit left-[30px] right-[30px] mt-[0px] mb-[20px] p-[20px] border-[1px] shadow-lg border-borderColor dark:border-dborderColor text-txt dark:text-dtxt rounded-xl bg-[#f3f3f3] dark:bg-[#28282884]'>
+               <p className='figtree text-[3rem] flex justify-center'>
+                   Memories This year:&nbsp;
+                 <GradientText colors={["#fc9b41ff", "#d557e3ff", "#3ed8e3ff"]} animationSpeed={5} showBorder={false} className="w-fit text-[3rem]" ref={countRef}>
+                   {animatedCount}
+                 </GradientText>
+               </p>
+
+        </section>
 
        <section data-label='graphSection' className='flex flex-wrap justify-between h-fit w-full pt-[50px]'>
 
-          <div  ref={containerRef} className="w-[49%] p-[20px] bg-[#f3f3f3] dark:bg-[#171717] rounded-xl">
+          <div  ref={containerRef} className="w-[49.3%] p-[20px] bg-[#f3f3f3] border-[1px] shadow-lg border-borderColor dark:border-dborderColor dark:bg-[#171717] rounded-xl">
              <PackedBubble data={sampleBubbles}  width={size.width}  height={size.height}  />
           </div>
 
-          <div className=" flex items-center w-[49%] p-[20px] bg-[#f3f3f3] dark:bg-[#171717] rounded-xl">
+          <div className=" flex items-center w-[49.3%] p-[20px] bg-[#f3f3f3] border-[1px] shadow-lg border-borderColor dark:border-dborderColor dark:bg-[#171717] rounded-xl">
             <BarChart data={sampleBars} />
           </div>
 

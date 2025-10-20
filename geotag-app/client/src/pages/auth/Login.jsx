@@ -27,7 +27,7 @@ const Login = ({ onSwitchToSignup }) => {
   return (
     <div className="h-[100vh] w-[100vw] relative flex items-center bg-dlightMain">
       <div className="formDiv flex justify-start items-center w-fit h-[400px] transparent overflow-hidden">
-        <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>;
+        {/* <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>; */}
       </div>
       {/* Right side login panel */}
       <div className="formDiv flex justify-center absolute z-10 h-full w-[50%] top-0 right-0 bg-gray-200 shadow-lg rounded-l-[30px]">
