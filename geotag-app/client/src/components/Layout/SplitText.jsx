@@ -102,4 +102,6 @@ const SplitText = forwardRef(({
   return renderTag();
 });
 
+SplitText.displayName = 'SplitText';
+
 export default SplitText;
