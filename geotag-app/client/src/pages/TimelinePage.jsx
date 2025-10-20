@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useTheme } from "../context/ThemeContext";
 import Navbar from '../components/Layout/Navbar';
+import GlareHover from '../components/Layout/GlareHover';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { mockMemories } from '../data/mockData';
 
@@ -12,7 +13,7 @@ const TimelinePage = () => {
   const carouselRefs = useRef([...Array(12)].map(() => React.createRef()));
   const monthRefs = useRef([...Array(12)].map(() => React.createRef()));
 
-  // ✅ State to track overflow for each month carousel
+  //State to track overflow for each month carousel
   const [hasOverflow, setHasOverflow] = useState(Array(12).fill(false));
 
   // Check overflow after initial render
@@ -52,9 +53,9 @@ const TimelinePage = () => {
     <div className="bg-main dark:bg-dmain w-full min-h-screen flex flex-col">
       <Navbar />
 
-      <div className="w-full flex">
+      <div className="w-full flex ">
         {/* Left Timeline */}
-        <section className="sidebarSection w-[17%] max-w-[200px] bg-lightMain dark:bg-dlightMain min-h-screen flex flex-col">
+        <section className="sidebarSection  w-[17%] max-w-[200px] bg-lightMain dark:bg-dlightMain min-h-screen flex flex-col">
           <div
             data-label="year section"
             className="archivo leading-none w-full text-txt dark:text-dtxt text-[2.5rem] h-[130px] pb-[20px] pt-[70px] flex justify-center"
@@ -171,7 +172,7 @@ const TimelinePage = () => {
                 <section
                   ref={carouselRefs.current[i]}
                   data-label="image carousel container"
-                  className="pt-[10px] w-full h-[160px] flex space-x-3 overflow-hidden scrollbar-hide"
+                  className=" w-full h-full flex space-x-3 overflow-hidden scrollbar-hide"
                   style={{ scrollBehavior: 'smooth' }}
                 >
                   {memoriesByMonth[i].length > 0 ? (
@@ -193,41 +194,44 @@ const TimelinePage = () => {
                       const rotation = options[Math.floor(Math.random() * options.length)];
                   
                         return (
-                        <article
-                          key={memory.id}
-                          data-label="image container"
-                          className="relative h-full p-[4px] min-w-[120px] bg-borderColor dark:bg-dtxt rounded-md overflow-hidden"
-                          style={{ transform: `rotate(${rotation}deg)` }}>
-                        
-                          {/* Push Pin */}
-                          <div className="absolute z-[10] flex flex-col items-center left-1/2 -translate-x-1/2 top-[6px] pointer-events-none">
-                            
-                  
-                            {/* Pin head */}
-                            <div
-                              className={`relative flex items-center justify-center bg-gradient-to-b ${color.head} rounded-full shadow-md w-[18px] aspect-square`}
-                            >
-                              {/* Inner dome */}
-                              <div className={`${color.inner} w-[8px] aspect-square rounded-full shadow-inner`}></div>
-                  
-                              {/* Highlight */}
-                              <div className="absolute top-[3px] left-[4px] w-[4px] h-[4px] bg-white/60 rounded-full"></div>
-                            </div>
-                  
-                            {/* Pin stem */}
-                            <div className={`w-[3px] h-[4px] ${color.stem} rounded-b-full`}></div>
-                  
-                            {/* Drop shadow */}
-                            <div className="w-[8px] h-[6px] bg-black/30 blur-[2px] rounded-full"></div>
-                          </div>
-                  
-                          {/* Image */}
-                          <img
-                            src={memory.photoUrl}
-                            alt={memory.title}
-                            className="w-full h-full object-cover rounded-sm"
-                          />
-                        </article>
+                       <GlareHover
+                       glareOpacity={0.3}
+                       glareAngle={-30}
+                       glareSize={300}
+                       transitionDuration={900}
+                       playOnce={false}
+                       glareColor="#ffffff">
+                            <article
+                              key={memory.id}
+                              data-label="image container"
+                              className="relative h-[200px] p-[8px] w-[200px] border-[1px] shadow-custom-dark-lg border-lightMain2 bg-main dark:bg-dtxt overflow-hidden"
+                              style={{ transform: `rotate(${rotation}deg)` }}
+                              >
+                              {/* Push Pin */}
+                              <div className="absolute z-[10] flex flex-col items-center left-1/2 -translate-x-1/2 top-[6px] pointer-events-none">
+                                {/* Pin head */}
+                                <div
+                                  className={`relative flex items-center justify-center bg-gradient-to-b ${color.head} rounded-full shadow-md w-[18px] aspect-square`}
+                                >
+                                  {/* Inner dome */}
+                                  <div className={`${color.inner} w-[8px] aspect-square rounded-full shadow-inner`}></div>
+                                  {/* Highlight */}
+                                  <div className="absolute top-[3px] left-[4px] w-[4px] h-[4px] bg-white/60 rounded-full"></div>
+                                </div>
+                                {/* Pin stem */}
+                                <div className={`w-[3px] h-[4px] ${color.stem} rounded-b-full`}></div>
+                                {/* Drop shadow */}
+                                <div className="w-[8px] h-[6px] bg-black/30 blur-[2px] rounded-full"></div>
+                              </div>
+                          
+                              {/* Image */}
+                              <img
+                                src={memory.photoUrl}
+                                alt={memory.title}
+                                className="w-full h-[85%] object-cover"
+                              />
+                            </article>
+                          </GlareHover>
                         );
                       })
                     ) : (
@@ -242,7 +246,7 @@ const TimelinePage = () => {
         </section>
       </div>
     </div>
-  
+     
   );
 };
 

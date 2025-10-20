@@ -137,7 +137,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
             </>
           )}
 
-          <div className="flex items-center text-sm text-blue-500 dark:text-blue-400 mb-2">
+          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
             <MapPin size={16} className="mr-2" />
             <span>{memory.location.address}</span>
           </div>

@@ -3,6 +3,7 @@ import MemoryCard from '../components/Memories/MemoryCard';
 import AddMemoryForm from '../components/Memories/AddMemoryForm';
 import { mockMemories } from '../data/mockData';
 import Navbar from '../components/Layout/Navbar';
+import SplitText from "../components/Layout/SplitText";
 import { useTheme } from "../context/ThemeContext";
 import animationData from "../data/animationData/emptyAnimation.json";
 import Lottie from "lottie-react";
@@ -38,9 +39,20 @@ const MemoriesPage = () => {
         {/* Header */}
         <div className="flex w-full mb-[20px] justify-between items-center">
           <div> { memories.length === 0 ?<></>:<>
-            <h1 className="text-4xl font-bold text-txt dark:text-dtxt mb-2">
-              My Memories
-            </h1>
+            <SplitText
+              text="My Memories"
+              className="text-4xl font-bold mb-2 text-txt dark:text-dtxt"
+              delay={0.1}                // delay before animation starts
+              duration={0.6}             // animation duration per letter
+              ease="power3.out"          // easing function
+              splitType="chars"          // split into characters
+              from={{ opacity: 0, y: 40 }} // starting state
+              to={{ opacity: 1, y: 0 }}     // final state
+              threshold={0.1}            // for IntersectionObserver trigger
+              rootMargin="-100px"        // trigger before in viewport
+              textAlign="center"
+              onLetterAnimationComplete={() => {console.log("Animation finished!");console.log(self.chars);}}
+            />
             <p className="text-lightTxt dark:text-dlightTxt">
               {memories.length}{' '}
               {memories.length === 1 ? 'memory' : 'memories'} saved
