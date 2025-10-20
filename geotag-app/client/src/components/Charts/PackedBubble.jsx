@@ -92,7 +92,7 @@ export default function PackedBubble({ data, width = 800, height = 600 }) {
   "filter",
   isDark
     ? "drop-shadow(0 2px 12px rgba(45, 45, 45, 1))" // subtle light shadow for dark mode
-    : "drop-shadow(0 2px 12px rgba(0,0,0,0.12))"      // default for light mode
+    : "drop-shadow(0 2px 12px rgba(168, 168, 168, 1))"      // default for light mode
 )
       .on("mousemove", (event, d) => {
         setTooltip({

@@ -55,7 +55,7 @@ const TimelinePage = () => {
 
       <div className="w-full flex ">
         {/* Left Timeline */}
-        <section className="sidebarSection  w-[17%] max-w-[200px] bg-lightMain dark:bg-dlightMain min-h-screen flex flex-col">
+        <section className="sidebarSection  w-[17%] max-w-[200px] bg-main dark:bg-dmain min-h-screen flex flex-col">
           <div
             data-label="year section"
             className="archivo leading-none w-full text-txt dark:text-dtxt text-[2.5rem] h-[130px] pb-[20px] pt-[70px] flex justify-center"
@@ -127,7 +127,7 @@ const TimelinePage = () => {
         </section>
 
         {/* Right Timeline */}
-        <section className="timelineSection w-[83%] flex-1 bg-main dark:bg-dmain min-h-screen flex flex-col pt-[130px]">
+        <section className="timelineSection w-[83%] flex-1 bg-lightMain dark:bg-dslightLightMain min-h-screen flex flex-col pt-[130px]">
           {Array.from({ length: 12 }, (_, i) => (
             <div key={i}>
               <div
@@ -136,7 +136,7 @@ const TimelinePage = () => {
               >
                 <div
                   data-label="line"
-                  className='w-full h-[2px] rounded bg-lightMain dark:bg-dlightMain'
+                  className='w-full h-[2px] rounded bg-lightMain2 dark:bg-dlightMain'
                 ></div>
               </div>
 
@@ -144,9 +144,7 @@ const TimelinePage = () => {
               <div
                 ref={monthRefs.current[i]}
                 data-label="month container"
-                className={`w-full h-[200px] flex items-start px-[40px] relative ${
-                  currentMonthIndex === i?'dark:bg-dslightLightMain bg-slightLightMain ':'bg-transparent'
-                }`}
+                className={`w-full h-[200px] flex items-start px-[40px] relative`}
               >
                 {/* Left scroll button - only if overflow */}
                 {hasOverflow[i] && (

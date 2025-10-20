@@ -98,7 +98,7 @@ return (
       
        <Navbar />
 
-        <section data-label='memCountSection' className='z-[10] top-[70px] absolute text-center h-fit left-[30px] right-[30px] mt-[0px] mb-[20px] p-[20px] border-[1px] shadow-lg border-borderColor dark:border-dborderColor text-txt dark:text-dtxt rounded-xl bg-[#f3f3f3] dark:bg-[#28282884]'>
+        <section data-label='memCountSection' className='z-[10] top-[70px] absolute text-center h-fit left-[30px] right-[30px] mt-[0px] mb-[20px] p-[20px] border-[1px] shadow-sm border-borderColor dark:border-dborderColor text-txt dark:text-dtxt rounded-xl bg-[#f3f3f3] dark:bg-[#28282884]'>
                <p className='figtree text-[3rem] flex justify-center'>
                    Memories This year:&nbsp;
                  <GradientText colors={["#fc9b41ff", "#d557e3ff", "#3ed8e3ff"]} animationSpeed={5} showBorder={false} className="w-fit text-[3rem]" ref={countRef}>
