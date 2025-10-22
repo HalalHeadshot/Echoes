@@ -3,6 +3,7 @@ import { useState,useEffect, useRef,useMemo,useCallback } from 'react';
 import Lottie from "lottie-react";
 import animationData from "../../data/animationData/startingAnimation.json";
 import SplitText from "../../components/Layout/SplitText";
+import LightRays from '../../components/Layout/LightRays';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
@@ -116,7 +117,7 @@ const Signup = ({ onSwitchToLogin }) => {
     y: 0,
     scale: (i) => parseFloat(pinsRef.current[i].getAttribute('data-scale')),
     duration: 0.8,
-    stagger: 0.3,
+    stagger: 0.8,
     ease: 'power3.out',
   }
 );
@@ -141,14 +142,26 @@ const handleAnimationComplete = useCallback(() => {
       
       <div className="visualDiv relative flex justify-start items-center w-[50%] h-full transparent overflow-hidden">
         {/* <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>; */}
+           <LightRays
+            raysOrigin="top-center"
+            raysColor="#ffffffff"
+            raysSpeed={1}
+            lightSpread={0.8}
+            rayLength={3}
+            followMouse={true}
+            mouseInfluence={false}
+            noiseAmount={0.05}
+            distortion={0.05}
+            className="custom-rays"
+          />
           <div datalabel="logo" className="absolute top-[20px] left-[20px] w-[40px] h-[40px] bg-[url('/logo.png')] bg-contain bg-center bg-no-repeat"></div>
-                  <SplitText
+          <SplitText
            text="Moments Made Timeless"
            className="absolute z-[10] top-[20%] left-1/2 -translate-x-1/2 text-6xl font-bold mb-2 text-txt dark:text-dtxt"
            delay={0.1}
-           duration={0.6}
+           duration={1.0}
            ease="power3.out"
-           splitType="words"
+           splitType="chars"
            from={fromProps}
            to={toProps}
            threshold={0.1}
