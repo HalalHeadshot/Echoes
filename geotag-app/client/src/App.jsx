@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
+import HomeLocationPage from './pages/HomeLocationPage'
 import MemoriesPage from './pages/MemoriesPage';
 import TimelinePage from './pages/TimelinePage';
 import AnalyticsPage from './pages/AnalyticsPage'
@@ -12,11 +13,12 @@ function App() {
     <Router>
       <div className="min-h-screen bg-gray-50 flex flex-col items-center">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/homelocation" element={<HomeLocationPage />} />
           <Route path="/memories" element={<MemoriesPage />} />
           <Route path="/timeline" element={<TimelinePage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
-          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/" element={<AuthPage />} />
         </Routes>
       </div>
     </Router>

@@ -1,13 +1,21 @@
-import { EyeOff, Eye } from 'lucide-react';
+import { EyeOff, Eye,X } from 'lucide-react';
 import { useState,useEffect,useRef,useMemo,useCallback } from 'react';
 import { Link } from "react-router-dom";
 import Lottie from "lottie-react";
 import animationData from "../../data/animationData/startingAnimation.json";
 import SplitText from "../../components/Layout/SplitText";
 import LightRays from '../../components/Layout/LightRays';
+import axios from "axios";
+import BareHomePage from '../BarebonesPages/BareHomePage';
+import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 
 const Login = ({ onSwitchToSignup }) => {
+
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -21,10 +29,34 @@ const Login = ({ onSwitchToSignup }) => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const BASE_URL = 'http://localhost:5000';
+
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log('Login attempt:', formData);
-    alert('Login functionality will be connected to backend later!');
+    
+    try {
+  if (!formData.email || !formData.password) {
+    setError('All fields are required');
+    setLoading(false);
+    return;
+  }
+
+  setLoading(true);
+  setError('');
+
+  const response = await axios.post(`${BASE_URL}/api/auth/login`, {
+    email: formData.email,
+    password: formData.password
+  }, { withCredentials: true });
+
+  setFormData({ name: '', email: '', password: '', confirmPassword: '' });
+  navigate('/home');
+} catch (err) {
+  console.error("Login error:", err);
+  setError(err.response?.data?.message || 'Login failed. Please try again.');
+} finally {
+  setLoading(false);
+}
   };
 
 
@@ -56,7 +88,18 @@ const handleAnimationComplete = useCallback(() => {
   
 
   return (
+    loading?
+    //bare bones of home page nav bar as placeholder while loading
+   <BareHomePage/>
+      :
     <div className="h-[100vh] w-[100vw] relative flex items-center bg-dlightMain">
+       {(error)?
+      <div className='flex items-center text-white bg-red-500/30 backdrop-blur-md absolute z-[50] top-[20px] left-[50%] -translate-x-1/2 p-[10px] rounded-md border-[1px] border-red-500'>
+        {error}
+        <button className='pl-[5px] text-red-600' onClick={()=>setError(prev => !prev)}><X></X></button>
+      </div>:
+      <div className='display-none'></div>
+      }
       <div className="visualDiv relative flex justify-start items-center w-[50%] h-full transparent overflow-hidden">
         {/* <Lottie animationData={animationData} loop={true} className="w-[50%] aspect-square overflow-hidden"/>; */}
           <LightRays
@@ -74,7 +117,7 @@ const handleAnimationComplete = useCallback(() => {
           <div datalabel="logo" className="absolute top-[20px] left-[20px] w-[40px] h-[40px] bg-[url('/logo.png')] bg-contain bg-center bg-no-repeat"></div>
           <SplitText
                      text="Moments Made Timeless"
-                     className="absolute z-[10] top-[20%] left-1/2 -translate-x-1/2 text-6xl font-bold mb-2 text-txt dark:text-dtxt"
+                     className="absolute z-[10] top-[20%] left-1/2 -translate-x-1/2 text-6xl font-bold mb-2 text-dtxt"
                      delay={0.1}
                      duration={1.0}
                      ease="power3.out"

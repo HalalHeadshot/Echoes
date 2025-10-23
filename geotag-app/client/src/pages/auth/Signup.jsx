@@ -7,17 +7,17 @@ import LightRays from '../../components/Layout/LightRays';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
+import BareHomePage from '../BarebonesPages/BareHomePage';
 
 const Signup = ({ onSwitchToLogin }) => {
 
   const navigate = useNavigate();
 
   const [error, setError] = useState('');
-  //const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-  
+  const [formData, setFormData] = useState({ 
     name: '',
     email: '',
     password: '',
@@ -52,6 +52,22 @@ const Signup = ({ onSwitchToLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    /*
+    You click the Submit button.
+    Browser does its default form behavior:
+    Packages the form data into a request.
+    Navigates away from the current page (reloads the page) to send that request.
+    
+    In a React SPA:
+    Page reload = React state lost, your current view is destroyed and rebuilt.
+    Any ongoing animations, data in memory, or UI state is lost.
+    Clicking Submit does not reload the page.
+    
+    React stays in control of the page.
+    You can handle the data manually:
+    axios.post("/api/auth/signup", formData);
+    Page stays in the same place, keeping your state, animations, and SPA flow intact.
+     */
 
     // Basic validation
     if (formData.password !== formData.confirmPassword) {
@@ -64,20 +80,21 @@ const Signup = ({ onSwitchToLogin }) => {
       return;
     }
 
-    console.log('Signup attempt:', formData);//remove later
       try {
-      //setLoading(true); add later
+      setLoading(true);
       setError('');
       setSuccess('');
       
       //Using /api clearly marks routes as API endpoints.
       //Without it, /signup could conflict with a React frontend route /signup
       //axios is a popular library for making HTTP requests.
-      const response = await axios.post(`${BASE_URL}/auth/signup`, {
+      const response = await axios.post(`${BASE_URL}/api/auth/signup`, {
         name: formData.name,
         email: formData.email,
         password: formData.password,
-      });
+      },{ withCredentials: true});//{ withCredentials: true} tells it’s okay to include cookies from 5000 when requests come from 3000.
+      //tells browser to actually send/receive cookies
+
       //Data object is the {} part
       //This is the request body sent to your backend.
       /*     
@@ -88,17 +105,16 @@ const Signup = ({ onSwitchToLogin }) => {
       response.config → The Axios request configuration used.
        */
 
-      console.log('Server response:', response.data);//remove later
       setSuccess('Account created successfully!');
       setFormData({ name: '', email: '', password: '', confirmPassword: '' });//reset
-      navigate('/');
+      navigate('/homelocation');//redirect to set home location
 
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || 'Something went wrong!');
     } finally {
       console.log("");//remove later
-      //setLoading(false);
+      setLoading(false);
     }
   
   };
@@ -131,9 +147,13 @@ const handleAnimationComplete = useCallback(() => {
 }, []);
 
   return (
+    loading?
+    //bare bones of home page nav bar as placeholder while loading
+   <BareHomePage/>
+      :
     <div className="h-[100vh] w-[100vw] relative flex items-center bg-dlightMain">
       {(error)?
-      <div className='flex items-center text-red-500 bg-red-500/45 backdrop-blur-md absolute z-[50] top-[20px] left-[50%] -translate-x-1/2 p-[10px] rounded-md border-[1px] border-red-500'>
+      <div className='flex items-center text-white bg-red-500/30 backdrop-blur-md absolute z-[50] top-[20px] left-[50%] -translate-x-1/2 p-[10px] rounded-md border-[1px] border-red-500'>
         {error}
         <button className='pl-[5px] text-red-600' onClick={()=>setError(prev => !prev)}><X></X></button>
       </div>:
@@ -157,7 +177,7 @@ const handleAnimationComplete = useCallback(() => {
           <div datalabel="logo" className="absolute top-[20px] left-[20px] w-[40px] h-[40px] bg-[url('/logo.png')] bg-contain bg-center bg-no-repeat"></div>
           <SplitText
            text="Moments Made Timeless"
-           className="absolute z-[10] top-[20%] left-1/2 -translate-x-1/2 text-6xl font-bold mb-2 text-txt dark:text-dtxt"
+           className="absolute z-[10] top-[20%] left-1/2 -translate-x-1/2 text-6xl font-bold mb-2 text-dtxt"
            delay={0.1}
            duration={1.0}
            ease="power3.out"
@@ -325,6 +345,7 @@ const handleAnimationComplete = useCallback(() => {
         </form>
       </div>
     </div>
+    
   );
 };
 
