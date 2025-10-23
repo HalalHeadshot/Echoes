@@ -4,23 +4,57 @@ import { NavLink } from "react-router-dom";
 import { MoonStar,SunMedium,LogOut,ChevronDown,User,ChartNoAxesColumn } from 'lucide-react';
 import { useTheme } from "../../context/ThemeContext";
 import Modal from "./Modal";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+   const navigate = useNavigate();
    const [showProfileOptions, setShowProfileOptions] = useState(false);
    const { dark, setDark } = useTheme();
    const [openModal, setOpenModal] = useState(false);
+   const [name,setName]=useState("");
+   const [email,setEmail]=useState("");
 
+   const BASE_URL = 'http://localhost:5000';
+   useEffect(()=>{
+    const fetchUser = async () => {
+    
+      try{
+        const res=await axios.get(`${BASE_URL}/api/user/navbar`,{ withCredentials: true });
+        setName(res.data.name);
+        setEmail(res.data.email);
+      }
+      catch(err){
+        console.error("Error fetching user data:", err.response?.data || err.message);
+        setName("");
+        setEmail("");
+      }
+    };
+    
+    fetchUser();
+   },[]);
+  
+
+   const logOutUser = async () => {
+   try {
+      await axios.post(`${BASE_URL}/api/auth/logout`, {}, { withCredentials: true });
+      navigate('/');
+    }
+   catch (err) {
+    console.error("Error logging out:", err.response?.data || err.message);
+   }
+   };
   return (
        <nav className="transparent backdrop-blur-lg fixed z-[999] top-[0px] py-[5px] left-0 right-0 px-[20px]">
         <div className="flex justify-between items-center h-[50px] relative z-10">
           {/* Logo/Brand */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/home" className="flex items-center space-x-2">
             <div className='bg-[url("logo.png")] bg-contain bg-no-repeat aspect-[445/549] h-[40px]'></div>
           </Link>
 
           {/* Navigation Links */}
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center space-x-[12px] py-[5px] px-[5px] h-full bg-main/50 dark:bg-dborderColor/50 backdrop-blur-[2px] border-[1px] border-borderColor dark:border-dborderColor rounded-full">
-                <NavLink to="/" className={({ isActive }) =>
+                <NavLink to="/home" className={({ isActive }) =>
                     `p-[5px] h-full flex items-center justify-center rounded-full text-[1.2rem] w-[80px] text-center
                      text-sm font-medium ${isActive ? 
                       "bg-dmain text-white dark:bg-main dark:text-black"
@@ -84,8 +118,8 @@ const Navbar = () => {
   
                  <div className="p-[5px] w-full flex justify-between">
                      <section className="flex flex-col justify-center">
-                       <p className='text-[0.9rem] text-txt dark:text-dtxt'>Username</p>
-                       <p className='text-[0.6rem] text-lightTxt dark:text-dlightTxt'>sample@gmail.com</p>
+                       <p className='text-[0.9rem] text-txt dark:text-dtxt'>{`${name.length>10?name.slice(0,9)+"...":name}`}</p>
+                       <p className='text-[0.6rem] text-lightTxt dark:text-dlightTxt'>{`${email.length>18?email.slice(0,17)+"...":email}`}</p>
                      </section>
                      <button className="flex items-center justify-center text-txt dark:text-dtxt h-full p-[5px] border-l-[1px] border-[#565656]"
                        onClick={() => setShowProfileOptions(prev => !prev)}>
@@ -127,17 +161,17 @@ const Navbar = () => {
                       
                           {/* Name and info */}
                           <div className="mb-6">
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">Emma Smith</h2>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">Software Engineer</p>
-                            <p className="text-gray-500 dark:text-gray-500 text-sm">Los Angeles, California</p>
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{`${name.length>20?name.slice(0,19)+"...":name}`}</h2>
+                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">{`${email.length>40?email.slice(0,49)+"...":email}`}</p>
+                            <p className="text-gray-500 dark:text-gray-500 text-sm">Home Location</p>
                           </div>
                       
                           {/* Current role badge */}
                           <div className="mb-6 flex items-center gap-2">
-                            <span className="text-gray-500 dark:text-gray-400 text-sm">Current role</span>
+                            <span className="text-gray-500 dark:text-gray-400 text-sm">Achievemnts Unlocked:</span>
                             <i className="fa-solid fa-briefcase text-gray-400 text-xs"></i>
                             <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium">
-                              Software Engineer
+                              -------
                             </span>
                           </div>                 
                         </div>
@@ -151,7 +185,7 @@ const Navbar = () => {
                   
         
                   <button className="text-[0.9rem] h-full flex  justify-start py-[5px] border-t-[1px] border-borderColor dark:border-dborderColor text-lightTxt dark:text-dlightTxt w-full"
-                          onClick={() => setIsLoggedIn(false)} >
+                          onClick={logOutUser} >
                     <LogOut className='scale-[0.8]' /><p className='pl-[5px] whitespace-nowrap w-[90px] flex justify-start'>Log Out</p>
                   </button>
              </div>

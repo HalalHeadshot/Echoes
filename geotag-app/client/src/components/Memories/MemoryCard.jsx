@@ -19,7 +19,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
     });
   };
 
-  const handleViewOnMap = () => navigate('/');
+  const handleViewOnMap = () => navigate('/home');
 
   const handleEditClick = () => setIsEditing(true);
 

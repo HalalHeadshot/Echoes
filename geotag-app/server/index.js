@@ -1,8 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes'); 
+const navbarRoutes = require('./routes/navbarRoutes'); 
+const homePageRoutes = require('./routes/homePageRoutes'); 
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 require('dotenv').config(); // loads .env variables
+//But for local development or manual setups, it’s essential.
 
 const app = express();
 /*it creates an Express application object
@@ -18,10 +22,27 @@ If Express was a car, express() is like turning the key — app is now the car y
 //MIDDLEWARE SETUP-----------------------
 //app.use(...)  // Tells Express to run this middleware function for every request
 //no explicit next() required becaause its inbuilt in cors()
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // your frontend URL
+  credentials: true, //this is the key line for cookies,tells Express to allow cookies from that frontend
+}));
 //CORS (Cross-Origin Resource Sharing) lets your frontend (e.g., React on localhost:5173) 
 //talk to your backend (localhost:5000) without the browser blocking the request for security reasons.
 //no explicit next() required becaause its inbuilt in cor
+
+/*CORS (Cross-Origin Resource Sharing) is a browser security mechanism that controls how web pages from one origin
+(domain + protocol + port) can request resources from another origin.
+By default, browsers block cross-origin requests for security.
+CORS works by adding specific HTTP headers (like Access-Control-Allow-Origin) to tell the browser which external
+origins are allowed to access the server’s resources.
+In Express, using: app.use(cors());
+automatically sets these headers so your frontend (e.g., http://localhost:5173) can safely make API calls to your backend 
+(e.g., http://localhost:5000).*/
+
+
+app.use(cookieParser());
+//This middleware parses cookies from incoming requests and makes them available in req.cookies.
+//Without this, req.cookies would be undefined, and you’d have to manually parse the Cookie header.
 app.use(express.json());
 /*
 app.use(express.json())
@@ -37,6 +58,12 @@ req.on('data', chunk => { data += chunk; });
 req.on('end', () => { const parsed = JSON.parse(data); });
 Basically, Express now does this automatically for you.
  -------------------------------------------*/
+
+//  So why cookieParser() comes last (or middle)?
+// Because:
+// cors() should always come first — it needs to wrap the whole API.
+// express.json() should come before any middleware or route that reads req.body.
+// cookieParser() can safely come after — cookies are independent of the body, so it doesn’t depend on .json().
 //---------------------------------------
 
 //connect to DB--------------------------
@@ -74,9 +101,12 @@ http://localhost:5000
 */
 
 //routes---------------------
-app.use('/auth', authRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/user', navbarRoutes);
+app.use('/api/user',homePageRoutes);
 //When a request comes in, Express checks the path.
-//If the path starts with /auth, it forwards the request to the authRoutes router.
+//If the path starts with /api/auth, it forwards the request to the authRoutes router.
+//router.post('/signup', ...) Defines a POST endpoint at /signup (full URL becomes /api/auth/signup after app.use).
 
 //------------------------
 // start server
