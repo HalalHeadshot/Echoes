@@ -96,7 +96,7 @@ const TimelinePage = () => {
                       className={`w-[20px] aspect-square rounded-full border-[2px] flex items-center justify-center ${
                         i === currentMonthIndex
                           ? 'border-orangeMain'
-                          : 'border-borderColor dark:border-dborderColor'
+                          : 'border-lightMain2 dark:border-dborderColor'
                       }`}
                     >
                       <div
@@ -115,7 +115,7 @@ const TimelinePage = () => {
                         className={`h-[200px] ${
                           i === currentMonthIndex
                             ? 'bg-gradient-to-b from-orangeMain via-pinkMain to-cyanMain w-[5px]'
-                            : 'bg-borderColor dark:bg-dborderColor w-[2px]'
+                            : 'bg-lightMain dark:bg-dborderColor w-[2px]'
                         }`}
                       ></div>
                     )}
@@ -136,7 +136,7 @@ const TimelinePage = () => {
               >
                 <div
                   data-label="line"
-                  className='w-full h-[2px] rounded bg-lightMain2 dark:bg-dlightMain'
+                  className='w-full h-[2px] rounded bg-main dark:bg-dlightMain'
                 ></div>
               </div>
 

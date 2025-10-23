@@ -1,21 +1,27 @@
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import { NavLink } from "react-router-dom";
-import { MoonStar,SunMedium,LogOut,ChevronDown,User,ChartNoAxesColumn } from 'lucide-react';
+import { MoonStar,SunMedium,LogOut,ChevronDown,User,ChartNoAxesColumn, MapPinHouse } from 'lucide-react';
 import { useTheme } from "../../context/ThemeContext";
+import { useHome } from '../../context/HomeContext';
 import Modal from "./Modal";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
    const navigate = useNavigate();
-   const [showProfileOptions, setShowProfileOptions] = useState(false);
+   const { homePosition } = useHome();
    const { dark, setDark } = useTheme();
+
+   const [showProfileOptions, setShowProfileOptions] = useState(false);
    const [openModal, setOpenModal] = useState(false);
    const [name,setName]=useState("");
    const [email,setEmail]=useState("");
+   const [address,setAddress]=useState("");
+  const [addrLoading, setAddrLoading] = useState(false);
 
    const BASE_URL = 'http://localhost:5000';
+   //run when component mounts
    useEffect(()=>{
     const fetchUser = async () => {
     
@@ -31,8 +37,75 @@ const Navbar = () => {
       }
     };
     
-    fetchUser();
+    fetchUser();     
    },[]);
+
+   
+
+   useEffect(() => {
+  const fetchAddress = async () => {
+    if (!homePosition || !homePosition.lat || !homePosition.lng) return;
+
+    try {
+      setAddrLoading(true);
+
+      // Nominatim reverse geocoding
+      const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(
+        homePosition.lat
+      )}&lon=${encodeURIComponent(homePosition.lng)}&accept-language=en`;
+
+      const res = await axios.get(url, {
+        headers: {
+          'User-Agent': 'EchoesGeotagApp/1.0 (your-email@example.com)'
+        }
+      });
+
+      if (res.data && res.data.display_name) {
+        // Terms to filter out
+        const unwantedTerms = [
+          'taluka', 
+          'tehsil', 
+          'subdivision',
+          'ward',
+          'zone',
+          'suburban'
+        ];
+        
+        // Clean duplicates and filter unwanted terms
+        const parts = res.data.display_name.split(",").map(p => p.trim());
+        const seen = new Set();
+        const cleaned = [];
+
+        for (let part of parts) {
+          const lower = part.toLowerCase();
+          
+          // Check if part contains any unwanted term
+          const hasUnwantedTerm = unwantedTerms.some(term => 
+            lower.includes(term)
+          );
+          
+          if (!seen.has(lower) && !hasUnwantedTerm) {
+            cleaned.push(part);
+            seen.add(lower);
+          }
+        }
+
+        setAddress(cleaned.join(", "));
+      } else if (res.data && res.data.address) {
+        setAddress(JSON.stringify(res.data.address));
+      } else {
+        setAddress("");
+      }
+    } catch (err) {
+      console.error('Nominatim reverse geocode error:', err.response?.data || err.message || err);
+      setAddress("");
+    } finally {
+      setAddrLoading(false);
+    }
+  };
+
+  fetchAddress();
+}, [homePosition]);
   
 
    const logOutUser = async () => {
@@ -44,6 +117,15 @@ const Navbar = () => {
     console.error("Error logging out:", err.response?.data || err.message);
    }
    };
+
+
+   const handlehomeLocation=()=>{
+    navigate('/homelocation');
+   };
+
+ 
+
+
   return (
        <nav className="transparent backdrop-blur-lg fixed z-[999] top-[0px] py-[5px] left-0 right-0 px-[20px]">
         <div className="flex justify-between items-center h-[50px] relative z-10">
@@ -99,6 +181,11 @@ const Navbar = () => {
           </div>
 
          <div className='w-fit h-[50px] flex'>
+         
+         <button onClick={handlehomeLocation} className="flex text-borderColor scale-[1.2] dark:text-dlightTxt items-center justify-center h-full w-full mr-5">
+           < MapPinHouse/>
+         </button>
+         
          <button onClick={() => setDark(prev => !prev)} className="flex text-borderColor dark:text-dlightTxt items-center justify-center h-full w-full mr-5">
            {dark ? (
              <SunMedium className="scale-[1.2] transition-all duration-300" />
@@ -106,6 +193,8 @@ const Navbar = () => {
              <MoonStar className="scale-[1.2] transition-all duration-300" />
            )}
          </button>
+
+         
 
           <section className='relative flex items-center text-black h-full bg-white/20 dark:bg-dborderColor/50 backdrop-blur-[2px] border-[1px]
            border-borderColor dark:border-dborderColor rounded-full' onMouseLeave={() => setShowProfileOptions(false)}>      
@@ -152,18 +241,14 @@ const Navbar = () => {
                               <i className="fa-solid fa-user text-5xl text-gray-500"></i>
                             </div>
                             
-                            <div className="flex gap-2 mt-20">
-                              <button className="px-5 py-2 bg-black dark:bg-white text-white dark:text-black rounded-full text-sm font-medium hover:opacity-90 transition-opacity">
-                                Edit Profile
-                              </button>
-                            </div>
+                            
                           </div>
                       
                           {/* Name and info */}
                           <div className="mb-6">
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">{`${name.length>20?name.slice(0,19)+"...":name}`}</h2>
                             <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">{`${email.length>40?email.slice(0,49)+"...":email}`}</p>
-                            <p className="text-gray-500 dark:text-gray-500 text-sm">Home Location</p>
+                            <p className="text-gray-500 dark:text-gray-500 text-sm">{address}</p>
                           </div>
                       
                           {/* Current role badge */}

@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes'); 
 const navbarRoutes = require('./routes/navbarRoutes'); 
-const homePageRoutes = require('./routes/homePageRoutes'); 
+const locationRoutes = require('./routes/locationRoutes'); 
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 require('dotenv').config(); // loads .env variables
@@ -103,7 +103,7 @@ http://localhost:5000
 //routes---------------------
 app.use('/api/auth', authRoutes);
 app.use('/api/user', navbarRoutes);
-app.use('/api/user',homePageRoutes);
+app.use('/api/user',locationRoutes);
 //When a request comes in, Express checks the path.
 //If the path starts with /api/auth, it forwards the request to the authRoutes router.
 //router.post('/signup', ...) Defines a POST endpoint at /signup (full URL becomes /api/auth/signup after app.use).

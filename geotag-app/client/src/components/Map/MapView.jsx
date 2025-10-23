@@ -1,17 +1,15 @@
-import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import { useTheme } from "../../context/ThemeContext";
 import CustomMarker from "./CustomMarker";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import HomeMarker from "./HomeMarker"; // optional component to render home pin
+import HomeMarker from "./HomeMarker";
+import { useHome } from "../../context/HomeContext";
 
 const MapView = ({ memories }) => {
   const defaultCenter = [19.0866, 72.9095];
   const defaultZoom = 11;
   const { dark } = useTheme();
-
-  const [homePosition, setHomePosition] = useState(null);
+  const { homePosition } = useHome(); //get home position from context
 
   const tileUrls = {
     streets: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -21,20 +19,12 @@ const MapView = ({ memories }) => {
 
   const mapStyle = dark ? "dark" : "light";
 
-  // Fetch user's home location from backend
-  useEffect(() => {
-    const fetchHomeLocation = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/user/gethome", { withCredentials: true });
-        if (response.data?.lat && response.data?.lng) {
-          setHomePosition({ lat: response.data.lat, lng: response.data.lng });
-        }
-      } catch (err) {
-        console.error("Error fetching home location:", err.response?.data || err.message);
-      }
-    };
-    fetchHomeLocation();
-  }, []);
+  //A small helper component to recenter map when home changes
+  function SetMapView({ position }) {
+    const map = useMap();
+    if (position) map.setView([position.lat, position.lng], 12);
+    return null;
+  }
 
   return (
     <div className="relative h-full w-full">
@@ -51,11 +41,14 @@ const MapView = ({ memories }) => {
           subdomains={["a", "b", "c", "d"]}
         />
 
-        {/* Home marker if available */}
+        {/*Recenter map when home loads */}
+        <SetMapView position={homePosition} />
+
+        {/*Render the user’s home pin */}
         {homePosition && <HomeMarker position={homePosition} />}
 
-        {/* Use the new CustomMarker for each memory */}
-        {memories.map(memory => (
+        {/*Render all memories */}
+        {memories.map((memory) => (
           <CustomMarker key={memory.id} memory={memory} />
         ))}
 
@@ -66,4 +59,3 @@ const MapView = ({ memories }) => {
 };
 
 export default MapView;
-

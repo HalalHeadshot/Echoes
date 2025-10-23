@@ -6,10 +6,12 @@ import TimelinePage from './pages/TimelinePage';
 import AnalyticsPage from './pages/AnalyticsPage'
 import AuthPage from './pages/auth/AuthPage';
 import { ThemeProvider } from "./context/ThemeContext";
+import { HomeProvider } from "./context/HomeContext";
 
 function App() {
   return (
     <ThemeProvider>
+    <HomeProvider>
     <Router>
       <div className="min-h-screen bg-gray-50 flex flex-col items-center">
         <Routes>
@@ -22,6 +24,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </HomeProvider>
     </ThemeProvider>
   );
 }

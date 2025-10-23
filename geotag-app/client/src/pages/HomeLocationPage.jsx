@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import { LocateFixed } from 'lucide-react';
+import { Locate } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import axios from "axios";
-import marker2x from "leaflet/dist/images/marker-icon-2x.png";
-import marker from "leaflet/dist/images/marker-icon.png";
-import shadow from "leaflet/dist/images/marker-shadow.png";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = "http://localhost:5000";
 
-// Fix default marker icon
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: marker2x,
-  iconUrl: marker,
-  shadowUrl: shadow,
+//Custom home pin icon (from /public folder)
+const homePinIcon = new L.Icon({
+  iconUrl: "/homepin.png",
+  iconRetinaUrl: "/homepin.png",
+  iconSize: [50, 50],
+  iconAnchor: [25, 50],
+  popupAnchor: [0, -45],
+  shadowUrl: null,
 });
 
-// Map marker component
+// Map marker component lets user click to set location
 function LocationMarker({ position, setPosition }) {
   useMapEvents({
     click(e) {
@@ -27,18 +26,18 @@ function LocationMarker({ position, setPosition }) {
     },
   });
 
-  return position ? <Marker position={position} /> : null;
+  return position ? <Marker position={position} icon={homePinIcon} /> : null;
 }
 
 const HomeLocationPage = () => {
   const navigate = useNavigate();
   const [position, setPosition] = useState(null);
-  const [autoPosition, setAutoPosition] = useState(null); // store original geolocation
+  const [autoPosition, setAutoPosition] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showPrompt, setShowPrompt] = useState(true);
 
-  // Get user's current location once
+  // Get user's current geolocation once
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -58,6 +57,7 @@ const HomeLocationPage = () => {
     );
   }, []);
 
+  // Save selected location to backend
   const handleConfirm = async () => {
     if (!position) return alert("Select your home location first!");
     setSaving(true);
@@ -68,7 +68,7 @@ const HomeLocationPage = () => {
         { withCredentials: true }
       );
       alert("Home location saved successfully!");
-      navigate("/home"); // redirect to home
+      navigate("/home");
     } catch (err) {
       console.error("Error saving location:", err.response?.data || err.message);
       alert("Failed to save location. Try again.");
@@ -77,9 +77,16 @@ const HomeLocationPage = () => {
     }
   };
 
+  // Reset to automatically detected location
   const resetToAutoLocation = () => {
     if (!autoPosition) return alert("Automatic location not available.");
     setPosition(autoPosition);
+  };
+
+  // Handle denial of location permission
+  const handleDenyLocationPermission = () => {
+    setShowPrompt(false);
+    navigate("/home");
   };
 
   if (loading)
@@ -89,28 +96,23 @@ const HomeLocationPage = () => {
       </div>
     );
 
-
-   const handleDenyLocationPermission = () => {
-    setShowPrompt(false);
-    navigate('/home');
-  };
-
   return (
     <div className="w-[100vw] h-[100vh] relative">
+      {/* Permission prompt overlay */}
       {showPrompt && (
         <div className="absolute inset-0 z-[1000] flex flex-col items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-sm text-center">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className="bg-white rounded-lg p-6 max-w-sm text-center">
+            <h2 className="text-lg text-txt font-semibold mb-4">
               Allow Location Access?
             </h2>
-            <p className="text-sm mb-6">
+            <p className="text-sm text-txt mb-6">
               We need your location once to set your home marker on the map. You
-              can set it later from profile if you skip.
+              can set it later from the Navigation Bar if you skip.
             </p>
             <div className="flex justify-around">
               <button
                 onClick={handleDenyLocationPermission}
-                className="bg-gray-200 dark:bg-gray-700 dark:text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"
+                className="bg-gray-200 text-txt px-4 py-2 rounded-lg hover:bg-gray-300 transition-all"
               >
                 No thanks
               </button>
@@ -128,6 +130,7 @@ const HomeLocationPage = () => {
         </div>
       )}
 
+      {/*Map container */}
       <MapContainer
         center={position || { lat: 0, lng: 0 }}
         zoom={13}
@@ -141,15 +144,16 @@ const HomeLocationPage = () => {
         <LocationMarker position={position} setPosition={setPosition} />
       </MapContainer>
 
-      {/* Reset to automatic location button */}
+      {/*Reset to detected location */}
       <button
         onClick={resetToAutoLocation}
         className="absolute w-[50px] aspect-square bottom-6 right-6 bg-dmain text-dtxt text-[2rem] grid place-content-center rounded-full shadow-md hover:bg-dlightMain2 transition-all"
         title="Reset to your current location"
       >
-        <LocateFixed/>
+        <Locate />
       </button>
 
+      {/*Confirm home location */}
       <button
         onClick={handleConfirm}
         disabled={saving || !position}
