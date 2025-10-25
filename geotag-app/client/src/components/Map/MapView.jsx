@@ -1,11 +1,13 @@
-import { MapContainer, TileLayer, ZoomControl, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, ZoomControl, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useTheme } from "../../context/ThemeContext";
 import CustomMarker from "./CustomMarker";
 import HomeMarker from "./HomeMarker";
 import { useHome } from "../../context/HomeContext";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
-const MapView = ({ memories }) => {
+const MapView = ({ memories, addingMode = false, onMapClick }) => {
   const defaultCenter = [19.0866, 72.9095];
   const defaultZoom = 11;
   const { dark } = useTheme();
@@ -23,6 +25,16 @@ const MapView = ({ memories }) => {
   function SetMapView({ position }) {
     const map = useMap();
     if (position) map.setView([position.lat, position.lng], 12);
+    return null;
+  }
+
+  //Minimal addition listens for clicks only when addingMode is true
+  function ClickHandler() {
+    useMapEvents({
+      click(e) {
+        if (addingMode && onMapClick) onMapClick(e.latlng);
+      },
+    });
     return null;
   }
 
@@ -51,6 +63,9 @@ const MapView = ({ memories }) => {
         {memories.map((memory) => (
           <CustomMarker key={memory.id} memory={memory} />
         ))}
+
+        {/* 🔹 Add this — only active in add mode */}
+        <ClickHandler />
 
         <ZoomControl position="bottomright" />
       </MapContainer>

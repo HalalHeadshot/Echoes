@@ -1,38 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 
-const AddMemoryForm = ({ onClose, onAdd }) => {
+const AddMemoryForm = ({ onClose, onAdd, position }) => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    address: '',
-    latitude: '',
-    longitude: '',
-    photoUrl: ''
+    title: "",
+    description: "",
+    address: "",
+    latitude: "",
+    longitude: "",
+    photoUrl: "",
   });
+
+  //When position prop changes, update formData
+  useEffect(() => {
+    if (position) {
+      setFormData((prev) => ({
+        ...prev,
+        latitude: position.lat,
+        longitude: position.lng,
+      }));
+    }
+  }, [position]);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const newMemory = {
-      id: Date.now().toString(), // Temporary ID
+      id: Date.now().toString(),
       title: formData.title,
       description: formData.description,
       location: {
         coordinates: [
           parseFloat(formData.longitude),
-          parseFloat(formData.latitude)
+          parseFloat(formData.latitude),
         ],
-        address: formData.address
+        address: formData.address,
       },
       photoUrl: formData.photoUrl,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
     onAdd(newMemory);
@@ -40,11 +51,13 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
   };
 
   return (
-    <div className="fixed z-[999] inset-0 backdrop-blur-[10px] bg-dborderColor/50 flex items-center justify-center p-4 ">
+    <div className="fixed z-[999] inset-0 backdrop-blur-[10px] bg-dborderColor/50 flex items-center justify-center p-4">
       <div className="rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto overflow-hidden">
         <div className="p-6 bg-main dark:bg-dlightMain">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-txt dark:text-dtxt">Add New Memory</h2>
+            <h2 className="text-2xl font-bold text-txt dark:text-dtxt">
+              Add New Memory
+            </h2>
             <button
               onClick={onClose}
               className="text-dlightTxt hover:text-txt dark:hover:text-dtxt text-[2rem]"
@@ -54,6 +67,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Title */}
             <div>
               <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                 Title
@@ -69,6 +83,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
               />
             </div>
 
+            {/* Description */}
             <div>
               <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                 Description
@@ -84,6 +99,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
               />
             </div>
 
+            {/* Photo URL */}
             <div>
               <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                 Photo URL
@@ -102,6 +118,7 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
               </p>
             </div>
 
+            {/* Address */}
             <div>
               <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
                 Address
@@ -117,54 +134,37 @@ const AddMemoryForm = ({ onClose, onAdd }) => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
-                  Latitude
-                </label>
-                <input
-                  type="number"
-                  name="latitude"
-                  value={formData.latitude}
-                  onChange={handleChange}
-                  required
-                  step="any"
-                  placeholder="34.0195"
-                  className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-lightTxt dark:text-dlightTxt mb-1">
-                  Longitude
-                </label>
-                <input
-                  type="number"
-                  name="longitude"
-                  value={formData.longitude}
-                  onChange={handleChange}
-                  required
-                  step="any"
-                  placeholder="-118.4912"
-                  className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                />
-              </div>
+            {/* Info about auto-filled Lat/Lng */}
+            <div className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+              Latitude & Longitude are auto-filled based on your map click, but you can edit them if needed.
             </div>
 
-            <div className="bg-purple-300 border border-purple-200 rounded-lg p-3">
-              <p className="text-sm text-purple-800">
-                <strong>Tip:</strong> Get coordinates from{' '}
-                <a
-                  href="https://www.google.com/maps"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline"
-                >
-                  Google Maps
-                </a>{' '}
-                by right-clicking a location
-              </p>
+            {/* Auto-filled Lat/Lng (editable) */}
+            <div className="flex gap-2">
+              <input
+                type="number"
+                step="any"
+                name="latitude"
+                value={formData.latitude}
+                onChange={(e) =>
+                  setFormData({ ...formData, latitude: e.target.value })
+                }
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg text-sm"
+              />
+              <input
+                type="number"
+                step="any"
+                name="longitude"
+                value={formData.longitude}
+                onChange={(e) =>
+                  setFormData({ ...formData, longitude: e.target.value })
+                }
+                className="bg-lightMain dark:bg-dlightMain w-full px-4 py-2 border-[2px] border-borderColor dark:border-dborderColor rounded-lg text-sm"
+              />
             </div>
 
+
+            {/* Buttons */}
             <div className="flex gap-3 pt-4">
               <button
                 type="button"

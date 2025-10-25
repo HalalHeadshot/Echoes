@@ -58,16 +58,7 @@ const MemoriesPage = () => {
               {memories.length === 1 ? 'memory' : 'memories'} saved
             </p></>}
           </div>
-          { memories.length === 0 ?
-          <></> : 
-          <button
-            onClick={() => setShowAddForm(true)}
-            className="bg-gradient-to-r from-dorangeMain via-dpinkMain to-dcyanMain text-dtxt font-semibold px-6 py-3 rounded-lg  transition flex items-center gap-2"
-          >
-            <span className="text-xl">+</span>
-            Add Memory
-          </button>
-          }
+         
         </div>
 
         {/* Memories Grid */}
