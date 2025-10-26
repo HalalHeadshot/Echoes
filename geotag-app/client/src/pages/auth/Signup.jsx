@@ -47,7 +47,7 @@ const Signup = ({ onSwitchToLogin }) => {
 
   };
   
-  const BASE_URL = 'http://localhost:5000';
+   const BASE_URL=import.meta.env.VITE_BASE_URL || "http://localhost:5000";
 
 
   const handleSubmit = async (e) => {

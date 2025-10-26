@@ -20,7 +20,7 @@ const Navbar = () => {
    const [address,setAddress]=useState("");
   const [addrLoading, setAddrLoading] = useState(false);
 
-   const BASE_URL = 'http://localhost:5000';
+    const BASE_URL=import.meta.env.VITE_BASE_URL || "http://localhost:5000";
    //run when component mounts
    useEffect(()=>{
     const fetchUser = async () => {
@@ -207,8 +207,8 @@ const Navbar = () => {
   
                  <div className="p-[5px] w-full flex justify-between">
                      <section className="flex flex-col justify-center">
-                       <p className='text-[0.9rem] text-txt dark:text-dtxt'>{`${name.length>10?name.slice(0,9)+"...":name}`}</p>
-                       <p className='text-[0.6rem] text-lightTxt dark:text-dlightTxt'>{`${email.length>18?email.slice(0,17)+"...":email}`}</p>
+                       <p className='text-[0.9rem] text-txt dark:text-dtxt'>{`${(name?.length)>10?name.slice(0,9)+"...":name}`}</p>
+                       <p className='text-[0.6rem] text-lightTxt dark:text-dlightTxt'>{`${email?.length>18?email.slice(0,17)+"...":email}`}</p>
                      </section>
                      <button className="flex items-center justify-center text-txt dark:text-dtxt h-full p-[5px] border-l-[1px] border-[#565656]"
                        onClick={() => setShowProfileOptions(prev => !prev)}>

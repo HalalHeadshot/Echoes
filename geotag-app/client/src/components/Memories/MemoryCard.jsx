@@ -8,7 +8,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
   const [editedMemory, setEditedMemory] = useState(memory);
   const [showDetails, setShowDetails] = useState(false);
   const [downloading, setDownloading] = useState(false);
-  const [showImageModal, setShowImageModal] = useState(false); // 🆕 Modal state
+  const [showImageModal, setShowImageModal] = useState(false); //Modal state
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -24,14 +24,16 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
   const handleEditClick = () => setIsEditing(true);
 
   const handleSave = () => {
+    if (!editedMemory.title || !editedMemory.description) {
+    alert("Title and description are required");
+    return;
+    }
     onEdit(editedMemory);
     setIsEditing(false);
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this memory?')) {
-      onDelete(memory.id);
-    }
+      onDelete(memory._id);
   };
 
   //see
@@ -112,6 +114,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
                 onChange={(e) =>
                   setEditedMemory({ ...editedMemory, title: e.target.value })
                 }
+                required
                 className="w-full mb-2 rounded-lg p-2 border-[1px] border-dborderColor dark:border-borderColor text-txt dark:text-dtxt bg-lightMain dark:bg-dlightMain focus:outline-none"
               />
               <textarea
@@ -122,6 +125,7 @@ const MemoryCard = ({ memory, onDelete, onEdit }) => {
                     description: e.target.value
                   })
                 }
+                required
                 className="w-full mb-3 rounded-lg p-2 border-[1px] border-dborderColor dark:border-borderColor text-txt dark:text-dtxt bg-lightMain dark:bg-dlightMain focus:outline-none"
                 rows="3"
               />

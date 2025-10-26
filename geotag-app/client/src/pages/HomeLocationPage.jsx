@@ -6,7 +6,7 @@ import L from "leaflet";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "http://localhost:5000";
+ const BASE_URL=import.meta.env.VITE_BASE_URL || "http://localhost:5000";
 
 //Custom home pin icon (from /public folder)
 const homePinIcon = new L.Icon({

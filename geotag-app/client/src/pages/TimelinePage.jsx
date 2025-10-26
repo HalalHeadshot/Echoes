@@ -4,15 +4,16 @@ import Navbar from '../components/Layout/Navbar';
 import GlareHover from '../components/Layout/GlareHover';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { mockMemories } from '../data/mockData';
+import axios from "axios";
 
 const TimelinePage = () => {
   const { dark } = useTheme();
   const currentYear = new Date().getFullYear();
   const currentMonthIndex = new Date().getMonth();
-
+  const [memories, setMemories] = useState(mockMemories);
   const carouselRefs = useRef([...Array(12)].map(() => React.createRef()));
   const monthRefs = useRef([...Array(12)].map(() => React.createRef()));
-
+  
   //State to track overflow for each month carousel
   const [hasOverflow, setHasOverflow] = useState(Array(12).fill(false));
 
@@ -26,6 +27,8 @@ const TimelinePage = () => {
     setHasOverflow(overflowStatus);
   }, []);
 
+
+  const BASE_URL=import.meta.env.VITE_BASE_URL || "http://localhost:5000";
   // Scroll to current month on mount
   useEffect(() => {
     const currentMonthDiv = monthRefs.current[currentMonthIndex].current;
@@ -44,10 +47,25 @@ const TimelinePage = () => {
 
   // Group memories by month
   const memoriesByMonth = Array.from({ length: 12 }, () => []);
-  mockMemories.forEach(memory => {
+  memories.forEach(memory => {
     const monthIndex = new Date(memory.createdAt).getMonth();
     memoriesByMonth[monthIndex].push(memory);
   });
+
+   //fetch memories on mount
+   useEffect(()=>{
+   const fetchMemories=async()=>{
+    try{
+        const res= await axios.get(`${BASE_URL}/api/memory/fetchmemory`, {withCredentials: true });// credentials:true is crucial for sending cookies
+        setMemories([...memories, ...(res.data.memories || [])]);
+    }
+    catch(err){
+      console.error("Failed to fetch memories:",err);
+    }
+   }
+   fetchMemories();
+  },[]);
+  
 
   return (
     <div className="bg-main dark:bg-dmain w-full min-h-screen flex flex-col">

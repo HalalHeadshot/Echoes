@@ -1,5 +1,5 @@
 import { Locate } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import MapView from "../components/Map/MapView";
 import { mockMemories } from "../data/mockData";
 import Navbar from "../components/Layout/Navbar";
@@ -7,6 +7,7 @@ import GradientText from "../components/Layout/GradientText";
 import { useTheme } from "../context/ThemeContext";
 import { useHome } from "../context/HomeContext";
 import AddMemoryForm from "../components/Memories/AddMemoryForm";
+import axios from "axios";
 
 const HomePage = () => {
   const { dark } = useTheme();
@@ -15,6 +16,7 @@ const HomePage = () => {
   const [addingMode, setAddingMode] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [memories, setMemories] = useState(mockMemories);
 
   const handleMapClick = (latlng) => {
     if (!addingMode) return;
@@ -28,12 +30,29 @@ const HomePage = () => {
     setSelectedPosition(null);
   };
 
-  // 🔹 Resets map view to current home position
+  //Resets map view to current home position
   const resetToAutoLocation = () => {
     if (!homePosition) return alert("Home location not available.");
     // You could also trigger map pan programmatically if you store the map ref in context
     alert("Reset to your current home location!");
   };
+
+  const BASE_URL=import.meta.env.VITE_BASE_URL || "http://localhost:5000";
+  
+  //fetch memories on mount
+  useEffect(()=>{
+   const fetchMemories=async()=>{
+    try{
+        const res= await axios.get(`${BASE_URL}/api/memory/fetchmemory`, {withCredentials: true // crucial for sending cookies
+});
+        setMemories([...memories, ...(res.data.memories || [])]);
+    }
+    catch(err){
+      console.error("Failed to fetch memories:",err);
+    }
+   }
+   fetchMemories();
+  },[]);
 
   return (
     <div className="w-[100vw] h-[100vh] bg-main dark:bg-dmain relative">
@@ -44,14 +63,14 @@ const HomePage = () => {
         {/* 🔹 Add mode info bar */}
         {addingMode && (
           <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1001] px-4 py-2 rounded-full bg-dmain/80 dark:bg-main/80 text-dtxt dark:text-txt font-medium shadow-md text-sm backdrop-blur-sm">
-            Add Memory Mode — Click on the map to add a memory
+            Add Memory Mode - Click on the map to add a memory
           </div>
         )}
 
         {/* 🔹 Map */}
         {!loading && (
           <MapView
-            memories={mockMemories}
+            memories={memories}
             homePosition={homePosition}
             addingMode={addingMode}
             onMapClick={handleMapClick}
@@ -139,10 +158,10 @@ const HomePage = () => {
         {showForm && selectedPosition && (
           <AddMemoryForm position={selectedPosition} onClose={handleFormClose}
            onAdd={(newMemory) => {
-      // Add new memory to your list
-      mockMemories.push(newMemory); // or use your actual state if you store memories in state
-      setShowForm(false); // close the form
-    }} />
+              // Add new memory to your list
+              setMemories(prev => [...prev, newMemory]);
+              setShowForm(false);} // close the form}
+           } />
         )}
       </div>
     </div>

@@ -8,10 +8,9 @@ const CustomMarker = ({ memory }) => {
   const customIcon = L.divIcon({
     className: "", // removes default leaflet marker styles
     html: `
-      <div class="w-16 h-16 rounded-lg overflow-hidden border-[2px] 
-                  border-dmain dark:border-main shadow-lg">
-        <img src="${memory.photoUrl}" class="w-full h-full object-cover"/>
-      </div>
+      <div class="w-16 h-16 rounded-lg border-[2px] border-dmain dark:border-main shadow-lg bg-cover bg-center"
+     style="background-image: url('${memory.photoUrl}')">
+     </div>
     `,
     iconSize: [64, 64],
     iconAnchor: [32, 64], // bottom of marker aligns with location
