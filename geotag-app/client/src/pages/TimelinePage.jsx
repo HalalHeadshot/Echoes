@@ -17,7 +17,7 @@ const TimelinePage = () => {
   //State to track overflow for each month carousel
   const [hasOverflow, setHasOverflow] = useState(Array(12).fill(false));
 
-  // Check overflow after initial render
+  //check overflow after initial render
   useEffect(() => {
     const overflowStatus = carouselRefs.current.map(ref => {
       const el = ref.current;
@@ -29,7 +29,7 @@ const TimelinePage = () => {
 
 
   const BASE_URL=import.meta.env.VITE_BASE_URL || "http://localhost:5000";
-  // Scroll to current month on mount
+  //Scroll to current month on mount
   useEffect(() => {
     const currentMonthDiv = monthRefs.current[currentMonthIndex].current;
     if (currentMonthDiv) {

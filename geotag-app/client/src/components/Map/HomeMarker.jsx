@@ -6,7 +6,7 @@ import gsap from "gsap";
 const homeMarkerIcon = new L.Icon({
   iconUrl: "/homepin.png", // path relative to public folder
   iconRetinaUrl: "/homepin.png", // optional, can be same
-  iconSize: [50, 50], // adjust size to fit your image
+  iconSize: [60, 60], // adjust size to fit your image
   iconAnchor: [15, 40], // point of the icon which will correspond to marker's location
   popupAnchor: [0, -50], // where the popup opens relative to the icon
 });
@@ -38,7 +38,7 @@ const HomeMarker = ({ position }) => {
 
    const markerRef = useRef(null);
   return (
-    <Marker ref={markerRef} position={[position.lat, position.lng]} icon={homeMarkerIcon}>
+    <Marker ref={markerRef} position={[position.lat, position.lng]} icon={homeMarkerIcon} zIndexOffset={1000}>
       
     </Marker>
   );

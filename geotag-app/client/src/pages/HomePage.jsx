@@ -90,7 +90,7 @@ const HomePage = () => {
               ]}
               animationSpeed={5}
               showBorder={false}
-              className="font-semibold text-[1rem]"
+              className="font-semibold text-[1rem] whitespace-nowrap"
             >
               &lt;&lt;Click on any marker to view memories from that location&gt;&gt;
             </GradientText>

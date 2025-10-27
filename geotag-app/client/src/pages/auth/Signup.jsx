@@ -133,7 +133,7 @@ const Signup = ({ onSwitchToLogin }) => {
     y: 0,
     scale: (i) => parseFloat(pinsRef.current[i].getAttribute('data-scale')),
     duration: 0.8,
-    stagger: 0.8,
+    stagger: 0.2,
     ease: 'power3.out',
   }
 );
@@ -145,6 +145,52 @@ const toProps = useMemo(() => ({ opacity: 1, y: 0 }), []);
 const handleAnimationComplete = useCallback(() => {
   console.log("Animation finished!");
 }, []);
+
+/*The problem is that window.google might not be ready yet when your useEffect first runs
+especially after a refresh or fast route switch.
+That’s why the Google button sometimes disappears.  thats why the setTimeout*/
+  useEffect(() => {
+  const initializeGoogleButton = () => {
+    if (window.google && document.getElementById("googleBtn")) {
+      google.accounts.id.initialize({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse,
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("googleBtn"),
+        {
+          theme: "outline",
+          size: "large",
+          text: "continue_with",
+          shape: "rectangular",
+          width: "100%",
+        }
+      );
+    } else {
+      // Retry after a short delay if google object isn’t loaded yet
+      setTimeout(initializeGoogleButton, 300);
+    }
+  };
+
+  initializeGoogleButton();
+}, []);
+
+
+  const handleCredentialResponse = async (response) => {
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/api/auth/google`,
+        { token: response.credential },
+        { withCredentials: true } // very important! for cookies
+      );
+      console.log("Google login success:", res.data);
+       navigate("/home"); // redirect user
+    } catch (err) {
+      console.error("Google login failed:", err.response?.data || err);
+    }
+  };
+  
 
   return (
     loading?
@@ -326,10 +372,10 @@ const handleAnimationComplete = useCallback(() => {
             <div className="h-[1.5px] bg-gray-300 w-full"></div>
           </div>
 
-          {/* Google */}
-          <button type="button" className="border-[1.5px] border-gray-300 p-[5px] hover:bg-gray-100 transition">
-            Continue with Google
-          </button>
+           {/* Google button */}
+           <div className="flex justify-center w-full">
+             <div id="googleBtn" className="w-full flex justify-center"></div>
+           </div>
 
           {/* Switch to Login */}
           <p className="text-center text-[0.9rem] mt-[10px] text-gray-500">
