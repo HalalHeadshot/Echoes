@@ -7,8 +7,22 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
-  password: { type: String, required: true },
-  //optional home coordinates with lat lng
+  password: { type: String, required: false },//required false because google auth doesnt send password
+  profilePic: { type: String, default: ''},
+  googleId: { type: String, default: null },//to identify Google accounts
+  //why its better to add googleId field
+  /*because Every Google account returns a unique, stable identifier called sub in the ID token payload:
+    const { email, name, picture, sub } = payload;
+    sub is the Google user ID it never changes for that account, even if the user changes their email or name.
+    Why googleId is useful but not required
+
+             Scenario	                                        What happens if you don’t store googleId	                         What happens if you do
+    User logs in again with Google	                          You find them by email → still works ✅	                              Same behavior ✅
+    User changes email in Google                           	Your next login fails (email doesn’t match anymore)       ❌	Still works because you match googleId ✅
+    You want to know if account came from Google	                   You have no clean way ❌                               	You can easily check if (user.googleId) ✅
+    You later add multi-provider auth (e.g. Apple, GitHub)	           Harder to manage ❌	                                     Cleaner with provider IDs ✅
+  */
+
   home: {
     lat: { type: Number, default: null },
     lng: { type: Number, default: null }

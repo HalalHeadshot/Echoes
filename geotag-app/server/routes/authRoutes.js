@@ -168,6 +168,65 @@ router.post('/logout', (req, res) => {
 });
 
 
+
+//google-routes login and  sign up-----------------------------------
+
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+// GOOGLE LOGIN/SIGNUP
+router.post('/google', async (req, res) => {
+  const { token } = req.body; // Frontend sends the ID token from Google
+
+  try {
+    // Verify the token with Google
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name, picture, sub } = payload; //'sub' = Google unique user ID
+
+    // Check if user already exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // If not, create a new user
+      user = await User.create({
+        name,
+        email,
+        password: null, //no password since Google handles auth
+        googleId: sub,
+        profilePic: picture,
+      });
+    }
+
+    // Create your own JWT token for session management
+    const jwtToken = createToken(user._id);
+
+    res.cookie('token', jwtToken, {
+      httpOnly: true,
+      secure: false, // change to true in prod (HTTPS)
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(200).json({
+      message: 'Google login successful',
+      user: {
+        name: user.name,
+        email: user.email,
+        profilePic: user.profilePic,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(401).json({ message: 'Invalid Google token', error: err.message });
+  }
+});
+
+
 module.exports = router;
 /*
 module.exports is the Node.js syntax for exporting something
