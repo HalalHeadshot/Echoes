@@ -18,6 +18,7 @@ const Navbar = () => {
    const [name,setName]=useState("");
    const [email,setEmail]=useState("");
    const [address,setAddress]=useState("");
+   const [profilePic,setProfilePic]=useState("");
   const [addrLoading, setAddrLoading] = useState(false);
 
     const BASE_URL=import.meta.env.VITE_BASE_URL || "http://localhost:5000";
@@ -29,17 +30,18 @@ const Navbar = () => {
         const res=await axios.get(`${BASE_URL}/api/user/navbar`,{ withCredentials: true });
         setName(res.data.name);
         setEmail(res.data.email);
+        setProfilePic(res.data.profilePic);
       }
       catch(err){
         console.error("Error fetching user data:", err.response?.data || err.message);
         setName("");
         setEmail("");
+        setProfilePic("");
       }
     };
     
     fetchUser();     
    },[]);
-
    
 
    useEffect(() => {
@@ -201,9 +203,16 @@ const Navbar = () => {
              
    
              <div className="overflow-hidden flex w-[50px] h-full bg-main/50 dark:bg-dborderColor/50 backdrop-blur-[2px] rounded-full hover:w-[200px] transition-all duration-300">           
+                 {profilePic?
+                
+                  <img src={profilePic} alt="pfp" className="w-[50px] h-[50px] rounded-full object-cover"/>
+
+                 :
                  <div className="aspect-square min-w-[50px] border-[1px] bg-gray-400 dark:bg-[#393939] dark:border-dmain rounded-full flex justify-center items-end overflow-hidden">
                      <i className="fa-solid fa-user text-[2rem] text-gray-200 dark:text-gray-400"></i>
                  </div>
+                 }
+                 
   
                  <div className="p-[5px] w-full flex justify-between">
                      <section className="flex flex-col justify-center">
@@ -237,9 +246,13 @@ const Navbar = () => {
                         <div className="px-6 pb-6">
                           {/* Profile picture and buttons */}
                           <div className="flex items-start justify-between -mt-16 mb-4">
+                            { profilePic? 
+                              <img src={profilePic} alt="pfp" className="w-32 h-32 z-[10] border-[5px] dark:border-[#1a1a1a] border-main  rounded-full object-cover"/>
+                            :       
                             <div className="z-[10] absoulte w-32 h-32 rounded-full border-4 border-white dark:border-[#1a1a1a] overflow-hidden bg-gray-300 flex items-center justify-center">
                               <i className="fa-solid fa-user text-5xl text-gray-500"></i>
                             </div>
+                            }
                             
                             
                           </div>

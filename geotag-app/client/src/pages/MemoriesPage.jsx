@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react';
 import MemoryCard from '../components/Memories/MemoryCard';
 import AddMemoryForm from '../components/Memories/AddMemoryForm';
-import { mockMemories } from '../data/mockData';
+
 import Navbar from '../components/Layout/Navbar';
 import SplitText from "../components/Layout/SplitText";
 import { useTheme } from "../context/ThemeContext";
@@ -11,7 +11,7 @@ import axios from "axios";
 
 const MemoriesPage = () => {
   const { dark, setDark } = useTheme();
-  const [memories, setMemories] = useState(mockMemories);
+  const [memories, setMemories] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
 
 

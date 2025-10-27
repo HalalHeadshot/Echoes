@@ -3,14 +3,13 @@ import { useTheme } from "../context/ThemeContext";
 import Navbar from '../components/Layout/Navbar';
 import GlareHover from '../components/Layout/GlareHover';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { mockMemories } from '../data/mockData';
 import axios from "axios";
 
 const TimelinePage = () => {
   const { dark } = useTheme();
   const currentYear = new Date().getFullYear();
   const currentMonthIndex = new Date().getMonth();
-  const [memories, setMemories] = useState(mockMemories);
+  const [memories, setMemories] = useState([]);
   const carouselRefs = useRef([...Array(12)].map(() => React.createRef()));
   const monthRefs = useRef([...Array(12)].map(() => React.createRef()));
   

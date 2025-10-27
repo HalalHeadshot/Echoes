@@ -128,7 +128,13 @@ useEffect(() => {
         { withCredentials: true } // very important! for cookies
       );
       console.log("Google login success:", res.data);
-       navigate("/home"); // redirect user
+        if (res.data.isNewUser) {
+      navigate("/homelocation"); //redirect new users
+      }
+      else {
+      navigate("/home"); //redirect existing users
+      }
+
     } catch (err) {
       console.error("Google login failed:", err.response?.data || err);
     }
@@ -275,7 +281,7 @@ useEffect(() => {
           </button>
 
           {/* Divider */}
-          <div className="flex items-center my-[30px]">
+          <div className="flex items-center my-[10px]">
             <div className="h-[1.5px] bg-gray-300 w-full"></div>
             <p className="whitespace-nowrap px-[5px] text-gray-400">Or</p>
             <div className="h-[1.5px] bg-gray-300 w-full"></div>

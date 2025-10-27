@@ -190,6 +190,7 @@ router.post('/google', async (req, res) => {
 
     // Check if user already exists
     let user = await User.findOne({ email });
+    let isNewUser = false;
 
     if (!user) {
       // If not, create a new user
@@ -200,6 +201,7 @@ router.post('/google', async (req, res) => {
         googleId: sub,
         profilePic: picture,
       });
+      isNewUser = true;
     }
 
     // Create your own JWT token for session management
@@ -219,6 +221,7 @@ router.post('/google', async (req, res) => {
         email: user.email,
         profilePic: user.profilePic,
       },
+      isNewUser
     });
   } catch (err) {
     console.error(err);

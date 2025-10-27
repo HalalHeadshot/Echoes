@@ -10,10 +10,39 @@ import BarChart from "../components/Charts/BarChart";
 import { useState,useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import Aurora from '../components/Layout/Aurora';
+import axios from 'axios';
   
 
 
 const AnalyticsPage = () => {
+
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:5000";
+const [monthlyData, setMonthlyData] = useState([]);
+
+  useEffect(() => {
+    const fetchMonthlyMemoryCount = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/api/analytics/monthlymemorycount`, { withCredentials: true });
+        console.log("Backend monthly data:", res.data);
+
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        
+        const formattedData = monthNames.map((month, idx) => {
+          // backend months are 1-indexed
+          const monthData = res.data.find(item => item._id.month === idx + 1);
+          return { name: month, value: monthData ? monthData.count : 0 };
+        });
+
+        setMonthlyData(formattedData);
+      } catch (err) {
+        console.error("Failed to fetch monthly memory count:", err);
+      }
+    };
+
+    fetchMonthlyMemoryCount();
+  }, []);
+  
 const sampleBubbles = [
   { name: "Food", value: 12 },
   { name: "Events", value: 8 },
@@ -40,20 +69,20 @@ const sampleBars = [
   { name: "Nov", value: 20 },
   { name: "Dec", value: 90 },
 ];
-const count=34;
 const countRef = useRef(null);
 
 const [animatedCount, setAnimatedCount] = useState(0);
+const [memoryCount,setMemoryCount]=useState(0);
 
 useEffect(() => {
-  const obj = { val: 0 };
+  const obj = { val: animatedCount }; // start from current displayed count
   gsap.to(obj, {
-    val: count,
+    val: memoryCount,
     duration: 1,
     ease: "power1.out",
     onUpdate: () => setAnimatedCount(Math.floor(obj.val))
   });
-}, [count]);
+}, [memoryCount]);
 
 
    const [isDark, setIsDark] = useState(
@@ -86,6 +115,22 @@ useEffect(() => {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
+
+  //fetching memory count
+  useEffect(()=>{
+      const fetchMemoryCount= async()=>{
+        try{
+        const res=await axios.get(`${BASE_URL}/api/analytics/totalmemorycount`,{withCredentials:true});
+        setMemoryCount(res.data.count);
+        }
+        catch(err){
+          console.error("failed to fetch memory count",err);
+        }
+      }
+
+      fetchMemoryCount();
+  },[]);
+
 return (
    <div className='relative w-full'>
       { isDark?
@@ -115,7 +160,7 @@ return (
           </div>
 
           <div className=" flex items-center w-[49.3%] p-[20px] bg-[#f3f3f3] border-[1px] shadow-lg border-borderColor dark:border-dborderColor dark:bg-[#171717] rounded-xl">
-            <BarChart data={sampleBars} />
+            <BarChart data={monthlyData} />
           </div>
 
        </section>

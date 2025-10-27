@@ -1,7 +1,7 @@
 import { Locate } from "lucide-react";
 import React, { useState,useEffect } from "react";
 import MapView from "../components/Map/MapView";
-import { mockMemories } from "../data/mockData";
+
 import Navbar from "../components/Layout/Navbar";
 import GradientText from "../components/Layout/GradientText";
 import { useTheme } from "../context/ThemeContext";
@@ -16,7 +16,7 @@ const HomePage = () => {
   const [addingMode, setAddingMode] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [memories, setMemories] = useState(mockMemories);
+  const [memories, setMemories] = useState([]);
 
   const handleMapClick = (latlng) => {
     if (!addingMode) return;
