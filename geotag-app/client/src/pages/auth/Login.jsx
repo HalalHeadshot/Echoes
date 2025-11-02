@@ -194,7 +194,7 @@ useEffect(() => {
                 <div datalabel='pinbody' className="relative w-full p-[5px] rounded-md aspect-square bg-white">
                   <div
                     datalabel='pinImage'
-                    className="bg-cover bg-[url(./BandraBandStandWalk.jpg)] h-[60px] relative z-[5] aspect-square rounded-sm bg-gray-400"
+                    className="bg-cover bg-[url(/BandraBandStandWalk.jpg)] h-[60px] relative z-[5] aspect-square rounded-sm bg-gray-400"
                   ></div>
                 </div>
                 <div datalabel='pintip' className='w-[20px] absolute left-1/2 -translate-x-1/2 bottom-[5px] aspect-square bg-white rotate-45'></div>
@@ -209,7 +209,7 @@ useEffect(() => {
                 <div datalabel='pinbody' className="relative w-full p-[5px] rounded-md aspect-square bg-white">
                   <div
                     datalabel='pinImage'
-                    className="bg-cover bg-[url(./GatewayOfInDIA.jpg)] h-[60px] relative z-[5] aspect-square rounded-sm bg-gray-400"
+                    className="bg-cover bg-[url(/GatewayOfInDIA.jpg)] h-[60px] relative z-[5] aspect-square rounded-sm bg-gray-400"
                   ></div>
                 </div>
                 <div datalabel='pintip' className='w-[20px] absolute left-1/2 -translate-x-1/2 bottom-[5px] aspect-square bg-white rotate-45'></div>
@@ -224,7 +224,7 @@ useEffect(() => {
                 <div datalabel='pinbody' className="relative w-full p-[5px] rounded-md aspect-square bg-white">
                   <div
                     datalabel='pinImage'
-                    className="bg-cover bg-[url(./sanjay-gandhi-national-park.webp)] h-[60px] relative z-[5] aspect-square rounded-sm bg-gray-400"
+                    className="bg-cover bg-[url(/sanjay-gandhi-national-park.webp)] h-[60px] relative z-[5] aspect-square rounded-sm bg-gray-400"
                   ></div>
                 </div>
                 <div datalabel='pintip' className='w-[20px] absolute left-1/2 -translate-x-1/2 bottom-[5px] aspect-square bg-white rotate-45'></div>
