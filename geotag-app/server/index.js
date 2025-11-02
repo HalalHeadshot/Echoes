@@ -25,9 +25,14 @@ If Express was a car, express() is like turning the key — app is now the car y
 //MIDDLEWARE SETUP-----------------------
 //app.use(...)  // Tells Express to run this middleware function for every request
 //no explicit next() required becaause its inbuilt in cors()
+const allowedOrigins = [
+  "http://localhost:5173",                 // local frontend (development)
+  "https://echoes-nine-kappa.vercel.app",  // deployed frontend (Vercel)
+];
+
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend URL
-  credentials: true, //this is the key line for cookies,tells Express to allow cookies from that frontend
+  origin: allowedOrigins,
+  credentials: true,
 }));
 //CORS (Cross-Origin Resource Sharing) lets your frontend (e.g., React on localhost:5173) 
 //talk to your backend (localhost:5000) without the browser blocking the request for security reasons.
@@ -70,7 +75,10 @@ Basically, Express now does this automatically for you.
 //---------------------------------------
 
 //connect to DB--------------------------
-mongoose.connect(process.env.MONGO_URI)
+const MONGO_URI =
+  process.env.MONGO_URI ||
+  "mongodb://localhost:27017/echoes";
+mongoose.connect(MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 /*in async await format
@@ -115,7 +123,7 @@ app.use('/api/analytics',analyticsRoutes)
 
 //------------------------
 // start server
-app.listen(process.env.PORT || 5000, () => console.log('Server running on http://localhost:5000'));
+app.listen(process.env.PORT || 5000, () => console.log('Server running'));
 /*app.listen(5000, ...)→ Starts the server on port 5000
 () => { ... } → This is a callback function that runs once the server starts successfully.
 
