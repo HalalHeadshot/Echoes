@@ -133,7 +133,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-[50px] relative z-10">
           {/* Logo/Brand */}
           <Link to="/home" className="flex items-center space-x-2">
-            <div className='bg-[url("logo.png")] bg-contain bg-no-repeat aspect-[445/549] h-[40px]'></div>
+            <div className='bg-[url("/logo.png")] bg-contain bg-no-repeat aspect-[445/549] h-[40px]'></div>
           </Link>
 
           {/* Navigation Links */}

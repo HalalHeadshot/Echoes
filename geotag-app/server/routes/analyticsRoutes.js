@@ -13,7 +13,6 @@ router.get('/totalmemorycount',verifyToken,async(req,res)=>{
 
 
 router.get('/monthlymemorycount', verifyToken, async (req, res) => {
-  console.log("Logged-in user ID:", req.userId); // <-- check this
   try {
     const monthlyCounts = await Memory.aggregate([
      { $match: { userId: new mongoose.Types.ObjectId(req.userId) } },
@@ -27,7 +26,6 @@ router.get('/monthlymemorycount', verifyToken, async (req, res) => {
       { $sort: { "_id.year": 1, "_id.month": 1 } }
     ]);
 
-    console.log("Monthly counts:", monthlyCounts);
     res.status(200).json(monthlyCounts);
   } catch (err) {
     console.error(err);
