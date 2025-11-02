@@ -5,6 +5,7 @@ const memorySchema=new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
+  category:{ type:String, enum:["Travel","Nature","Food","Events","People","Milestones","Culture","Other"]},
   location: {
     type: {
       type: String,

@@ -247,7 +247,7 @@ const Navbar = () => {
                           {/* Profile picture and buttons */}
                           <div className="flex items-start justify-between -mt-16 mb-4">
                             { profilePic? 
-                              <img src={profilePic} alt="pfp" className="w-32 h-32 z-[10] border-[5px] dark:border-[#1a1a1a] border-main  rounded-full object-cover"/>
+                              <img src={profilePic} alt="pfp" referrerPolicy="no-referrer" className="w-32 h-32 z-[10] border-[5px] dark:border-[#1a1a1a] border-main  rounded-full object-cover"/>
                             :       
                             <div className="z-[10] absoulte w-32 h-32 rounded-full border-4 border-white dark:border-[#1a1a1a] overflow-hidden bg-gray-300 flex items-center justify-center">
                               <i className="fa-solid fa-user text-5xl text-gray-500"></i>
@@ -264,14 +264,7 @@ const Navbar = () => {
                             <p className="text-gray-500 dark:text-gray-500 text-sm">{address}</p>
                           </div>
                       
-                          {/* Current role badge */}
-                          <div className="mb-6 flex items-center gap-2">
-                            <span className="text-gray-500 dark:text-gray-400 text-sm">Achievemnts Unlocked:</span>
-                            <i className="fa-solid fa-briefcase text-gray-400 text-xs"></i>
-                            <span className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium">
-                              -------
-                            </span>
-                          </div>                 
+                                          
                         </div>
                       </div>
                   </Modal>
