@@ -83,8 +83,8 @@ router.post('/signup', async (req, res) => {
       res.cookie('token', token, {
       httpOnly: true, //JS on the frontend cannot read the cookie. Only sent in HTTP requests. Protects your token from XSS.
       //Browser JavaScript cannot read document.cookie to get this cookie.Defends against XSS(an attacker’s injected script can’t steal the cookie
-      secure: false,// in production, set to true to send cookie only over HTTPS(not plain HTTP).Prevents network eavesdroppers from stealing the cookie
-      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production', //only true in production
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,// 7 days in milliseconds
     }); // sets cookie in browser
     //res.cookie(name, value, options)
@@ -141,8 +141,8 @@ router.post('/login', async(req,res)=>{
 
     res.cookie('token', token,{
       httpOnly:true,
-      secure: false,//in prod make it true
-      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production', //only true in production
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     /*
@@ -209,8 +209,8 @@ router.post('/google', async (req, res) => {
 
     res.cookie('token', jwtToken, {
       httpOnly: true,
-      secure: false, // change to true in prod (HTTPS)
-      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production', //only true in production
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
