@@ -177,26 +177,30 @@ That’s why the Google button sometimes disappears.  thats why the setTimeout*/
 }, []);
 
 
-  const handleCredentialResponse = async (response) => {
-    try {
-      const res = await axios.post(
-        `${BASE_URL}/api/auth/google`,
-        { token: response.credential },
-        { withCredentials: true } // very important! for cookies
-      );
-      console.log("Google login success:", res.data);
-      
-      if (res.data.isNewUser) {
-      navigate("/homelocation"); //redirect new users
-    } else {
-      navigate("/home"); //redirect existing users
-    }
+ const handleCredentialResponse = async (response) => {
+  setLoading(true); // start loading before API call
 
-    } catch (err) {
-      console.error("Google login failed:", err.response?.data || err);
+  try {
+    const res = await axios.post(
+      `${BASE_URL}/api/auth/google`,
+      { token: response.credential },
+      { withCredentials: true } // needed for cookies
+    );
+
+    console.log("Google login success:", res.data);
+
+    if (res.data.isNewUser) {
+      navigate("/homelocation"); // redirect new users
+    } else {
+      navigate("/home"); // redirect existing users
     }
-  };
-  
+  } catch (err) {
+    console.error("Google login failed:", err.response?.data || err);
+  } finally {
+    setLoading(false); // stop loading regardless of success/failure
+  }
+};
+
 
   return (
     loading?

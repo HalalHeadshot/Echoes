@@ -6,11 +6,11 @@ const HomeContext = createContext();
 export const HomeProvider = ({ children }) => {
   const [homePosition, setHomePosition] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const BASE_URL=import.meta.env.VITE_BASE_URL || "http://localhost:5000";
   useEffect(() => {
     const fetchHomeLocation = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/user/gethome", { withCredentials: true });
+        const response = await axios.get(`${BASE_URL}/api/user/gethome`, { withCredentials: true });
         if (response.data?.lat && response.data?.lng) {
           setHomePosition({ lat: response.data.lat, lng: response.data.lng });
         }

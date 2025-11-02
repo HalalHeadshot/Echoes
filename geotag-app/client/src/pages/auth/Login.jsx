@@ -120,26 +120,29 @@ useEffect(() => {
   initializeGoogleButton();
 }, []);
 
-  const handleCredentialResponse = async (response) => {
-    try {
-      const res = await axios.post(
-        `${BASE_URL}/api/auth/google`,
-        { token: response.credential },
-        { withCredentials: true } // very important! for cookies
-      );
-      console.log("Google login success:", res.data);
-        if (res.data.isNewUser) {
-      navigate("/homelocation"); //redirect new users
-      }
-      else {
-      navigate("/home"); //redirect existing users
-      }
+ const handleCredentialResponse = async (response) => {
+  setLoading(true); // start loading
 
-    } catch (err) {
-      console.error("Google login failed:", err.response?.data || err);
+  try {
+    const res = await axios.post(
+      `${BASE_URL}/api/auth/google`,
+      { token: response.credential },
+      { withCredentials: true } // very important! for cookies
+    );
+
+    console.log("Google login success:", res.data);
+
+    if (res.data.isNewUser) {
+      navigate("/homelocation"); // redirect new users
+    } else {
+      navigate("/home"); // redirect existing users
     }
-  };
-  
+  } catch (err) {
+    console.error("Google login failed:", err.response?.data || err);
+  } finally {
+    setLoading(false); // stop loading no matter success or fail
+  }
+};
 
   return (
     loading?
